@@ -1,0 +1,1568 @@
+{
+ "data": [
+  [
+   {
+    "id": "CVE-2019-2698",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2698",
+    "date": "2019-04-16",
+    "component": "client-libs/2d",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2602",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2602",
+    "date": "2019-04-16",
+    "component": "core-libs/java.math",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2684",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2684",
+    "date": "2019-04-16",
+    "component": "core-libs/java.rmi",
+    "affected": []
+   }
+  ],
+  [
+   {
+    "id": "CVE-2019-7317",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-7317",
+    "date": "2019-07-16",
+    "component": "client-libs/java.awt",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2821",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2821",
+    "date": "2019-07-16",
+    "component": "security-libs/javax.net.ssl",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2769",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2769",
+    "date": "2019-07-16",
+    "component": "core-libs/java.util",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2762",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2762",
+    "date": "2019-07-16",
+    "component": "core-libs/java.util",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2745",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2745",
+    "date": "2019-07-16",
+    "component": "security-libs/java.security",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2816",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2816",
+    "date": "2019-07-16",
+    "component": "core-libs/java.net",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2842",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2842",
+    "date": "2019-07-16",
+    "component": "hotspot/compiler",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2786",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2786",
+    "date": "2019-07-16",
+    "component": "security-libs/java.security",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2818",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2818",
+    "date": "2019-07-16",
+    "component": "security-libs/java.security",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2766",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2766",
+    "date": "2019-07-16",
+    "component": "core-libs/java.net",
+    "affected": []
+   }
+  ],
+  [
+   {
+    "id": "CVE-2019-2949",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2949",
+    "date": "2019-10-15",
+    "component": "security-libs/javax.net.ssl",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2989",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2989",
+    "date": "2019-10-15",
+    "component": "core-libs/java.net",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2958",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2958",
+    "date": "2019-10-15",
+    "component": "core-libs/java.lang",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2975",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2975",
+    "date": "2019-10-15",
+    "component": "core-libs/javax.script",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2977",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2977",
+    "date": "2019-10-15",
+    "component": "hotspot/compiler",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2999",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2999",
+    "date": "2019-10-15",
+    "component": "tools/javadoc(tool)",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2981",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2981",
+    "date": "2019-10-15",
+    "component": "xml/jaxp",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2973",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2973",
+    "date": "2019-10-15",
+    "component": "xml/jaxp",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2983",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2983",
+    "date": "2019-10-15",
+    "component": "client-libs/2d",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2988",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2988",
+    "date": "2019-10-15",
+    "component": "client-libs/2d",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2978",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2978",
+    "date": "2019-10-15",
+    "component": "core-libs/java.net",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2964",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2964",
+    "date": "2019-10-15",
+    "component": "core-libs/java.util.regex",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2992",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2992",
+    "date": "2019-10-15",
+    "component": "client-libs/2d",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2962",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2962",
+    "date": "2019-10-15",
+    "component": "client-libs/2d",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2987",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2987",
+    "date": "2019-10-15",
+    "component": "client-libs/2d",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2894",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2894",
+    "date": "2019-10-15",
+    "component": "security-libs/javax.net.ssl",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2933",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2933",
+    "date": "2019-10-15",
+    "component": "core-libs",
+    "affected": []
+   },
+   {
+    "id": "CVE-2019-2945",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2945",
+    "date": "2019-10-15",
+    "component": "core-libs/java.net",
+    "affected": []
+   }
+  ],
+  [
+   {
+    "id": "CVE-2020-2604",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2604",
+    "date": "2020-01-14",
+    "component": "core-libs/java.io:serialization",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2601",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2601",
+    "date": "2020-01-14",
+    "component": "security-libs/java.security",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2655",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2655",
+    "date": "2020-01-14",
+    "component": "security-libs/javax.net.ssl",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2593",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2593",
+    "date": "2020-01-14",
+    "component": "core-libs/java.net",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2654",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2654",
+    "date": "2020-01-14",
+    "component": "security-libs/java.security",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2590",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2590",
+    "date": "2020-01-14",
+    "component": "security-libs/org.ietf.jgss",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2659",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2659",
+    "date": "2020-01-14",
+    "component": "core-libs/java.nio",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2583",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2583",
+    "date": "2020-01-14",
+    "component": "client-libs/java.beans",
+    "affected": []
+   }
+  ],
+  [
+   {
+    "id": "CVE-2020-2803",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2803",
+    "date": "2020-04-14",
+    "component": "core-libs/java.nio",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2805",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2805",
+    "date": "2020-04-14",
+    "component": "core-libs/java.io",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2816",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2816",
+    "date": "2020-04-14",
+    "component": "security-libs/javax.net.ssl",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2781",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2781",
+    "date": "2020-04-14",
+    "component": "security-libs/java.security",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2830",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2830",
+    "date": "2020-04-14",
+    "component": "core-libs/java.util",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2767",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2767",
+    "date": "2020-04-14",
+    "component": "security-libs/javax.net.ssl",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2800",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2800",
+    "date": "2020-04-14",
+    "component": "core-libs/java.net",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2778",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2778",
+    "date": "2020-04-14",
+    "component": "security-libs/javax.net.ssl",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2754",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2754",
+    "date": "2020-04-14",
+    "component": "core-libs/javax.script",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2755",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2755",
+    "date": "2020-04-14",
+    "component": "core-libs/javax.script",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2773",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2773",
+    "date": "2020-04-14",
+    "component": "security-libs/javax.xml.crypto",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2756",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2756",
+    "date": "2020-04-14",
+    "component": "core-libs/java.io:serialization",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-2757",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2757",
+    "date": "2020-04-14",
+    "component": "core-libs/java.io:serialization",
+    "affected": []
+   }
+  ],
+  [
+   {
+    "id": "CVE-2020-14583",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14583",
+    "date": "2020-07-14",
+    "component": "core-libs/java.io",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-14593",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14593",
+    "date": "2020-07-14",
+    "component": "client-libs/2d",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-14562",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14562",
+    "date": "2020-07-14",
+    "component": "client-libs/javax.imageio",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-14621",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14621",
+    "date": "2020-07-14",
+    "component": "xml/jaxp",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-14556",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14556",
+    "date": "2020-07-14",
+    "component": "core-libs/java.util.concurrent",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-14573",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14573",
+    "date": "2020-07-14",
+    "component": "hotspot/compiler",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-14578",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14578",
+    "date": "2020-07-14",
+    "component": "security-libs/java.security",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-14579",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14579",
+    "date": "2020-07-14",
+    "component": "security-libs/java.security",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-14581",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14581",
+    "date": "2020-07-14",
+    "component": "client-libs/2d",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-14577",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14577",
+    "date": "2020-07-14",
+    "component": "security-libs/javax.net.ssl",
+    "affected": []
+   }
+  ],
+  [
+   {
+    "id": "CVE-2020-14803",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14803",
+    "date": "2020-10-20",
+    "component": "core-libs/java.io",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-14792",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14792",
+    "date": "2020-10-20",
+    "component": "hotspot/compiler",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-14782",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14782",
+    "date": "2020-10-20",
+    "component": "security-libs/java.security",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-14797",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14797",
+    "date": "2020-10-20",
+    "component": "core-libs/java.nio",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-14781",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14781",
+    "date": "2020-10-20",
+    "component": "core-libs/javax.naming",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-14779",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14779",
+    "date": "2020-10-20",
+    "component": "core-libs/java.io:serialization",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-14796",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14796",
+    "date": "2020-10-20",
+    "component": "core-libs/java.io",
+    "affected": []
+   },
+   {
+    "id": "CVE-2020-14798",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14798",
+    "date": "2020-10-20",
+    "component": "core-libs/java.io",
+    "affected": []
+   }
+  ],
+  [],
+  [
+   {
+    "id": "CVE-2021-2161",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-2161",
+    "date": "2021-04-20",
+    "component": "core-libs/java.io",
+    "affected": [
+     "16",
+     "15.0.2",
+     "13.0.6",
+     "11.0.10",
+     "8u282",
+     "7u291"
+    ]
+   },
+   {
+    "id": "CVE-2021-2163",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-2163",
+    "date": "2021-04-20",
+    "component": "security-libs/java.security",
+    "affected": [
+     "16",
+     "15.0.2",
+     "13.0.6",
+     "11.0.10",
+     "8u282",
+     "7u291"
+    ]
+   }
+  ],
+  [
+   {
+    "id": "CVE-2021-2388",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-2388",
+    "date": "2021-07-20",
+    "component": "hotspot/compiler",
+    "affected": [
+     "16.0.1",
+     "15.0.3",
+     "13.0.7",
+     "11.0.11",
+     "8u292",
+     "7u301"
+    ]
+   },
+   {
+    "id": "CVE-2021-2369",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-2369",
+    "date": "2021-07-20",
+    "component": "security-libs/java.security",
+    "affected": [
+     "16.0.1",
+     "15.0.3",
+     "13.0.7",
+     "11.0.11",
+     "8u292",
+     "7u301"
+    ]
+   },
+   {
+    "id": "CVE-2021-2432",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-2432",
+    "date": "2021-07-20",
+    "component": "core-libs/javax.naming",
+    "affected": [
+     "16.0.1",
+     "15.0.3",
+     "13.0.7",
+     "11.0.11",
+     "8u292",
+     "7u301"
+    ]
+   },
+   {
+    "id": "CVE-2021-2341",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-2341",
+    "date": "2021-07-20",
+    "component": "core-libs/java.net",
+    "affected": [
+     "16.0.1",
+     "15.0.3",
+     "13.0.7",
+     "11.0.11",
+     "8u292",
+     "7u301"
+    ]
+   }
+  ],
+  [
+   {
+    "id": "CVE-2021-35567",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-35567",
+    "date": "2021-10-19",
+    "component": "security-libs/java.security",
+    "affected": [
+     "16.0.2",
+     "15.0.4",
+     "13.0.8",
+     "11.0.12",
+     "8u302",
+     "7u311"
+    ]
+   },
+   {
+    "id": "CVE-2021-35550",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-35550",
+    "date": "2021-10-19",
+    "component": "security-libs/javax.net.ssl",
+    "affected": [
+     "16.0.2",
+     "15.0.4",
+     "13.0.8",
+     "11.0.12",
+     "8u302",
+     "7u311"
+    ]
+   },
+   {
+    "id": "CVE-2021-35586",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-35586",
+    "date": "2021-10-19",
+    "component": "client-libs/javax.imageio",
+    "affected": [
+     "16.0.2",
+     "15.0.4",
+     "13.0.8",
+     "11.0.12",
+     "8u302",
+     "7u311"
+    ]
+   },
+   {
+    "id": "CVE-2021-35564",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-35564",
+    "date": "2021-10-19",
+    "component": "security-libs/java.security",
+    "affected": [
+     "16.0.2",
+     "15.0.4",
+     "13.0.8",
+     "11.0.12",
+     "8u302",
+     "7u311"
+    ]
+   },
+   {
+    "id": "CVE-2021-35561",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-35561",
+    "date": "2021-10-19",
+    "component": "core-libs/java.util",
+    "affected": [
+     "16.0.2",
+     "15.0.4",
+     "13.0.8",
+     "11.0.12",
+     "8u302",
+     "7u311"
+    ]
+   },
+   {
+    "id": "CVE-2021-35565",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-35565",
+    "date": "2021-10-19",
+    "component": "core-libs/java.net",
+    "affected": [
+     "16.0.2",
+     "15.0.4",
+     "13.0.8",
+     "11.0.12",
+     "8u302",
+     "7u311"
+    ]
+   },
+   {
+    "id": "CVE-2021-35559",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-35559",
+    "date": "2021-10-19",
+    "component": "client-libs/javax.swing",
+    "affected": [
+     "16.0.2",
+     "15.0.4",
+     "13.0.8",
+     "11.0.12",
+     "8u302",
+     "7u311"
+    ]
+   },
+   {
+    "id": "CVE-2021-35578",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-35578",
+    "date": "2021-10-19",
+    "component": "security-libs/javax.net.ssl",
+    "affected": [
+     "16.0.2",
+     "15.0.4",
+     "13.0.8",
+     "11.0.12",
+     "8u302",
+     "7u311"
+    ]
+   },
+   {
+    "id": "CVE-2021-35556",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-35556",
+    "date": "2021-10-19",
+    "component": "client-libs/javax.swing",
+    "affected": [
+     "16.0.2",
+     "15.0.4",
+     "13.0.8",
+     "11.0.12",
+     "8u302",
+     "7u311"
+    ]
+   },
+   {
+    "id": "CVE-2021-35603",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-35603",
+    "date": "2021-10-19",
+    "component": "security-libs/javax.net.ssl",
+    "affected": [
+     "16.0.2",
+     "15.0.4",
+     "13.0.8",
+     "11.0.12",
+     "8u302",
+     "7u311"
+    ]
+   },
+   {
+    "id": "CVE-2021-35588",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-35588",
+    "date": "2021-10-19",
+    "component": "hotspot/runtime",
+    "affected": [
+     "16.0.2",
+     "15.0.4",
+     "13.0.8",
+     "11.0.12",
+     "8u302",
+     "7u311"
+    ]
+   }
+  ],
+  [
+   {
+    "id": "CVE-2022-21341",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21341",
+    "date": "2022-01-18",
+    "component": "core-libs/java.io:serialization",
+    "affected": [
+     "17.0.1",
+     "15.0.5",
+     "13.0.9",
+     "11.0.13",
+     "8u312",
+     "7u321"
+    ]
+   },
+   {
+    "id": "CVE-2022-21365",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21365",
+    "date": "2022-01-18",
+    "component": "client-libs/javax.imageio",
+    "affected": [
+     "17.0.1",
+     "15.0.5",
+     "13.0.9",
+     "11.0.13",
+     "8u312",
+     "7u321"
+    ]
+   },
+   {
+    "id": "CVE-2022-21282",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21282",
+    "date": "2022-01-18",
+    "component": "xml/jaxp",
+    "affected": [
+     "17.0.1",
+     "15.0.5",
+     "13.0.9",
+     "11.0.13",
+     "8u312",
+     "7u321"
+    ]
+   },
+   {
+    "id": "CVE-2022-21291",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21291",
+    "date": "2022-01-18",
+    "component": "hotspot/runtime",
+    "affected": [
+     "17.0.1",
+     "15.0.5",
+     "13.0.9",
+     "11.0.13",
+     "8u312",
+     "7u321"
+    ]
+   },
+   {
+    "id": "CVE-2022-21277",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21277",
+    "date": "2022-01-18",
+    "component": "client-libs/javax.imageio",
+    "affected": [
+     "17.0.1",
+     "15.0.5",
+     "13.0.9",
+     "11.0.13",
+     "8u312",
+     "7u321"
+    ]
+   },
+   {
+    "id": "CVE-2022-21305",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21305",
+    "date": "2022-01-18",
+    "component": "hotspot/compiler",
+    "affected": [
+     "17.0.1",
+     "15.0.5",
+     "13.0.9",
+     "11.0.13",
+     "8u312",
+     "7u321"
+    ]
+   },
+   {
+    "id": "CVE-2022-21299",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21299",
+    "date": "2022-01-18",
+    "component": "xml/jaxp",
+    "affected": [
+     "17.0.1",
+     "15.0.5",
+     "13.0.9",
+     "11.0.13",
+     "8u312",
+     "7u321"
+    ]
+   },
+   {
+    "id": "CVE-2022-21296",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21296",
+    "date": "2022-01-18",
+    "component": "xml/jaxp",
+    "affected": [
+     "17.0.1",
+     "15.0.5",
+     "13.0.9",
+     "11.0.13",
+     "8u312",
+     "7u321"
+    ]
+   },
+   {
+    "id": "CVE-2022-21349",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21349",
+    "date": "2022-01-18",
+    "component": "client-libs/2d",
+    "affected": [
+     "17.0.1",
+     "15.0.5",
+     "13.0.9",
+     "11.0.13",
+     "8u312",
+     "7u321"
+    ]
+   },
+   {
+    "id": "CVE-2022-21283",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21283",
+    "date": "2022-01-18",
+    "component": "core-libs/java.util",
+    "affected": [
+     "17.0.1",
+     "15.0.5",
+     "13.0.9",
+     "11.0.13",
+     "8u312",
+     "7u321"
+    ]
+   },
+   {
+    "id": "CVE-2022-21340",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21340",
+    "date": "2022-01-18",
+    "component": "security-libs/java.security",
+    "affected": [
+     "17.0.1",
+     "15.0.5",
+     "13.0.9",
+     "11.0.13",
+     "8u312",
+     "7u321"
+    ]
+   },
+   {
+    "id": "CVE-2022-21293",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21293",
+    "date": "2022-01-18",
+    "component": "core-libs/java.lang",
+    "affected": [
+     "17.0.1",
+     "15.0.5",
+     "13.0.9",
+     "11.0.13",
+     "8u312",
+     "7u321"
+    ]
+   },
+   {
+    "id": "CVE-2022-21294",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21294",
+    "date": "2022-01-18",
+    "component": "core-libs/java.util",
+    "affected": [
+     "17.0.1",
+     "15.0.5",
+     "13.0.9",
+     "11.0.13",
+     "8u312",
+     "7u321"
+    ]
+   },
+   {
+    "id": "CVE-2022-21360",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21360",
+    "date": "2022-01-18",
+    "component": "client-libs/javax.imageio",
+    "affected": [
+     "17.0.1",
+     "15.0.5",
+     "13.0.9",
+     "11.0.13",
+     "8u312",
+     "7u321"
+    ]
+   },
+   {
+    "id": "CVE-2022-21366",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21366",
+    "date": "2022-01-18",
+    "component": "client-libs/javax.imageio",
+    "affected": [
+     "17.0.1",
+     "15.0.5",
+     "13.0.9",
+     "11.0.13",
+     "8u312",
+     "7u321"
+    ]
+   },
+   {
+    "id": "CVE-2022-21248",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21248",
+    "date": "2022-01-18",
+    "component": "core-libs/java.io:serialization",
+    "affected": [
+     "17.0.1",
+     "15.0.5",
+     "13.0.9",
+     "11.0.13",
+     "8u312",
+     "7u321"
+    ]
+   }
+  ],
+  [
+   {
+    "id": "CVE-2022-21476",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21476",
+    "date": "2022-04-19",
+    "component": "security-libs/java.security",
+    "affected": [
+     "18",
+     "17.0.2",
+     "15.0.6",
+     "13.0.10",
+     "11.0.14",
+     "8u322",
+     "7u331"
+    ]
+   },
+   {
+    "id": "CVE-2022-21449",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21449",
+    "date": "2022-04-19",
+    "component": "security-libs/java.security",
+    "affected": [
+     "18",
+     "17.0.2",
+     "15.0.6",
+     "13.0.10",
+     "11.0.14",
+     "8u322",
+     "7u331"
+    ]
+   },
+   {
+    "id": "CVE-2022-21496",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21496",
+    "date": "2022-04-19",
+    "component": "core-libs/javax.naming",
+    "affected": [
+     "18",
+     "17.0.2",
+     "15.0.6",
+     "13.0.10",
+     "11.0.14",
+     "8u322",
+     "7u331"
+    ]
+   },
+   {
+    "id": "CVE-2022-21434",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21434",
+    "date": "2022-04-19",
+    "component": "core-libs/java.lang",
+    "affected": [
+     "18",
+     "17.0.2",
+     "15.0.6",
+     "13.0.10",
+     "11.0.14",
+     "8u322",
+     "7u331"
+    ]
+   },
+   {
+    "id": "CVE-2022-21426",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21426",
+    "date": "2022-04-19",
+    "component": "xml/jaxp",
+    "affected": [
+     "18",
+     "17.0.2",
+     "15.0.6",
+     "13.0.10",
+     "11.0.14",
+     "8u322",
+     "7u331"
+    ]
+   },
+   {
+    "id": "CVE-2022-21443",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21443",
+    "date": "2022-04-19",
+    "component": "security-libs/java.security",
+    "affected": [
+     "18",
+     "17.0.2",
+     "15.0.6",
+     "13.0.10",
+     "11.0.14",
+     "8u322",
+     "7u331"
+    ]
+   }
+  ],
+  [
+   {
+    "id": "CVE-2022-34169",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-34169",
+    "date": "2022-07-19",
+    "component": "xml/jaxp",
+    "affected": [
+     "18.0.1",
+     "17.0.3",
+     "15.0.7",
+     "13.0.11",
+     "11.0.15",
+     "8u332",
+     "7u341"
+    ]
+   },
+   {
+    "id": "CVE-2022-21541",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21541",
+    "date": "2022-07-19",
+    "component": "hotspot/runtime",
+    "affected": [
+     "18.0.1",
+     "17.0.3",
+     "15.0.7",
+     "13.0.11",
+     "11.0.15",
+     "8u332",
+     "7u341"
+    ]
+   },
+   {
+    "id": "CVE-2022-21549",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21549",
+    "date": "2022-07-19",
+    "component": "core-libs/java.util",
+    "affected": [
+     "18.0.1",
+     "17.0.3",
+     "15.0.7",
+     "13.0.11",
+     "11.0.15",
+     "8u332",
+     "7u341"
+    ]
+   },
+   {
+    "id": "CVE-2022-21540",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21540",
+    "date": "2022-07-19",
+    "component": "hotspot/compiler",
+    "affected": [
+     "18.0.1",
+     "17.0.3",
+     "15.0.7",
+     "13.0.11",
+     "11.0.15",
+     "8u332",
+     "7u341"
+    ]
+   }
+  ],
+  [
+   {
+    "id": "CVE-2022-21626",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21626",
+    "date": "2022-10-18",
+    "component": "security-libs/java.security",
+    "affected": [
+     "19",
+     "17.0.4",
+     "15.0.8",
+     "13.0.12",
+     "11.0.16",
+     "8u342",
+     "7u351"
+    ]
+   },
+   {
+    "id": "CVE-2022-21618",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21618",
+    "date": "2022-10-18",
+    "component": "security-libs/org.ietf.jgss",
+    "affected": [
+     "19",
+     "17.0.4",
+     "15.0.8",
+     "13.0.12",
+     "11.0.16",
+     "8u342",
+     "7u351"
+    ]
+   },
+   {
+    "id": "CVE-2022-21628",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21628",
+    "date": "2022-10-18",
+    "component": "core-libs/java.net",
+    "affected": [
+     "19",
+     "17.0.4",
+     "15.0.8",
+     "13.0.12",
+     "11.0.16",
+     "8u342",
+     "7u351"
+    ]
+   },
+   {
+    "id": "CVE-2022-39399",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-39399",
+    "date": "2022-10-18",
+    "component": "core-libs/java.net",
+    "affected": [
+     "19",
+     "17.0.4",
+     "15.0.8",
+     "13.0.12",
+     "11.0.16",
+     "8u342",
+     "7u351"
+    ]
+   },
+   {
+    "id": "CVE-2022-21619",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21619",
+    "date": "2022-10-18",
+    "component": "security-libs/java.security",
+    "affected": [
+     "19",
+     "17.0.4",
+     "15.0.8",
+     "13.0.12",
+     "11.0.16",
+     "8u342",
+     "7u351"
+    ]
+   },
+   {
+    "id": "CVE-2022-21624",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21624",
+    "date": "2022-10-18",
+    "component": "core-libs/javax.naming",
+    "affected": [
+     "19",
+     "17.0.4",
+     "15.0.8",
+     "13.0.12",
+     "11.0.16",
+     "8u342",
+     "7u351"
+    ]
+   }
+  ],
+  [
+   {
+    "id": "CVE-2023-21835",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21835",
+    "date": "2023-01-17",
+    "component": "security-libs/javax.net.ssl",
+    "affected": [
+     "19.0.1",
+     "17.0.5",
+     "15.0.9",
+     "13.0.13",
+     "11.0.17",
+     "8u352",
+     "7u361"
+    ]
+   },
+   {
+    "id": "CVE-2023-21830",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21830",
+    "date": "2023-01-17",
+    "component": "other-libs",
+    "affected": [
+     "19.0.1",
+     "17.0.5",
+     "15.0.9",
+     "13.0.13",
+     "11.0.17",
+     "8u352",
+     "7u361"
+    ]
+   },
+   {
+    "id": "CVE-2023-21843",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21843",
+    "date": "2023-01-17",
+    "component": "client-libs/javax.sound",
+    "affected": [
+     "19.0.1",
+     "17.0.5",
+     "15.0.9",
+     "13.0.13",
+     "11.0.17",
+     "8u352",
+     "7u361"
+    ]
+   }
+  ],
+  [
+   {
+    "id": "CVE-2023-21930",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21930",
+    "date": "2023-04-18",
+    "component": "security-libs/javax.net.ssl",
+    "affected": [
+     "20",
+     "17.0.6",
+     "11.0.18",
+     "8u362"
+    ]
+   },
+   {
+    "id": "CVE-2023-21954",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21954",
+    "date": "2023-04-18",
+    "component": "hotspot/gc",
+    "affected": [
+     "20",
+     "17.0.6",
+     "11.0.18",
+     "8u362"
+    ]
+   },
+   {
+    "id": "CVE-2023-21967",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21967",
+    "date": "2023-04-18",
+    "component": "security-libs/javax.net.ssl",
+    "affected": [
+     "20",
+     "17.0.6",
+     "11.0.18",
+     "8u362"
+    ]
+   },
+   {
+    "id": "CVE-2023-21939",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21939",
+    "date": "2023-04-18",
+    "component": "client-libs/javax.swing",
+    "affected": [
+     "20",
+     "17.0.6",
+     "11.0.18",
+     "8u362"
+    ]
+   },
+   {
+    "id": "CVE-2023-21938",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21938",
+    "date": "2023-04-18",
+    "component": "core-libs/java.lang",
+    "affected": [
+     "20",
+     "17.0.6",
+     "11.0.18",
+     "8u362"
+    ]
+   },
+   {
+    "id": "CVE-2023-21937",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21937",
+    "date": "2023-04-18",
+    "component": "core-libs/java.net",
+    "affected": [
+     "20",
+     "17.0.6",
+     "11.0.18",
+     "8u362"
+    ]
+   },
+   {
+    "id": "CVE-2023-21968",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21968",
+    "date": "2023-04-18",
+    "component": "core-libs/java.nio",
+    "affected": [
+     "20",
+     "17.0.6",
+     "11.0.18",
+     "8u362"
+    ]
+   }
+  ],
+  [
+   {
+    "id": "CVE-2023-22041",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22041",
+    "date": "2023-07-18",
+    "component": "hotspot/compiler",
+    "affected": [
+     "20.0.1",
+     "17.0.7",
+     "11.0.19",
+     "8u372"
+    ]
+   },
+   {
+    "id": "CVE-2023-25193",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25193",
+    "date": "2023-07-18",
+    "component": "client-libs/2d",
+    "affected": [
+     "20.0.1",
+     "17.0.7",
+     "11.0.19",
+     "8u372"
+    ]
+   },
+   {
+    "id": "CVE-2023-22044",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22044",
+    "date": "2023-07-18",
+    "component": "hotspot/compiler",
+    "affected": [
+     "20.0.1",
+     "17.0.7",
+     "11.0.19",
+     "8u372"
+    ]
+   },
+   {
+    "id": "CVE-2023-22045",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22045",
+    "date": "2023-07-18",
+    "component": "hotspot/compiler",
+    "affected": [
+     "20.0.1",
+     "17.0.7",
+     "11.0.19",
+     "8u372"
+    ]
+   },
+   {
+    "id": "CVE-2023-22049",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22049",
+    "date": "2023-07-18",
+    "component": "core-libs/java.io",
+    "affected": [
+     "20.0.1",
+     "17.0.7",
+     "11.0.19",
+     "8u372"
+    ]
+   },
+   {
+    "id": "CVE-2023-22036",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22036",
+    "date": "2023-07-18",
+    "component": "core-libs/java.util",
+    "affected": [
+     "20.0.1",
+     "17.0.7",
+     "11.0.19",
+     "8u372"
+    ]
+   },
+   {
+    "id": "CVE-2023-22006",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22006",
+    "date": "2023-07-18",
+    "component": "core-libs/java.net",
+    "affected": [
+     "20.0.1",
+     "17.0.7",
+     "11.0.19",
+     "8u372"
+    ]
+   }
+  ],
+  [
+   {
+    "id": "CVE-2023-22067",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22067",
+    "date": "2023-10-17",
+    "component": "other-libs/corba",
+    "affected": [
+     "21",
+     "17.0.8",
+     "11.0.20",
+     "8u382"
+    ]
+   },
+   {
+    "id": "CVE-2023-22081",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22081",
+    "date": "2023-10-17",
+    "component": "security-libs/javax.net.ssl",
+    "affected": [
+     "21",
+     "17.0.8",
+     "11.0.20",
+     "8u382"
+    ]
+   },
+   {
+    "id": "CVE-2023-22025",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22025",
+    "date": "2023-10-17",
+    "component": "hotspot/compiler",
+    "affected": [
+     "21",
+     "17.0.8",
+     "11.0.20",
+     "8u382"
+    ]
+   }
+  ],
+  [
+   {
+    "id": "CVE-2024-20932",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-20932",
+    "date": "2024-01-16",
+    "component": "security-libs/java.security",
+    "affected": [
+     "21.0.1",
+     "17.0.9",
+     "11.0.21",
+     "8u392"
+    ]
+   },
+   {
+    "id": "CVE-2024-20918",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-20918",
+    "date": "2024-01-16",
+    "component": "hotspot/compiler",
+    "affected": [
+     "21.0.1",
+     "17.0.9",
+     "11.0.21",
+     "8u392"
+    ]
+   },
+   {
+    "id": "CVE-2024-20952",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-20952",
+    "date": "2024-01-16",
+    "component": "security-libs/java.security",
+    "affected": [
+     "21.0.1",
+     "17.0.9",
+     "11.0.21",
+     "8u392"
+    ]
+   },
+   {
+    "id": "CVE-2024-20926",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-20926",
+    "date": "2024-01-16",
+    "component": "core-libs/javax.script",
+    "affected": [
+     "21.0.1",
+     "17.0.9",
+     "11.0.21",
+     "8u392"
+    ]
+   },
+   {
+    "id": "CVE-2024-20919",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-20919",
+    "date": "2024-01-16",
+    "component": "hotspot/runtime",
+    "affected": [
+     "21.0.1",
+     "17.0.9",
+     "11.0.21",
+     "8u392"
+    ]
+   },
+   {
+    "id": "CVE-2024-20921",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-20921",
+    "date": "2024-01-16",
+    "component": "hotspot/compiler",
+    "affected": [
+     "21.0.1",
+     "17.0.9",
+     "11.0.21",
+     "8u392"
+    ]
+   },
+   {
+    "id": "CVE-2024-20945",
+    "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-20945",
+    "date": "2024-01-16",
+    "component": "security-libs/javax.xml.crypto",
+    "affected": [
+     "21.0.1",
+     "17.0.9",
+     "11.0.21",
+     "8u392"
+    ]
+   }
+  ]
+ ]
+}
