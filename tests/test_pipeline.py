@@ -2,7 +2,7 @@ from cvereporter import fetch_vulnerabilities, nist_enhance
 import json
 
 def test_fetch():
-    with open("data/open_jvg_dump_2023-01-17.html","r") as data:
+    with open("tests/data/open_jvg_dump_2023-01-17.html","r") as data:
         vulns = fetch_vulnerabilities.parse_to_cyclone(data, "2023-01-17")
         assert(len(vulns)==3)
         #todo: do some better assertions on the actual vulnerability contents here
@@ -14,7 +14,7 @@ def test_fetch():
         assert(list(vulns[2].affects)[0].ref == "client-libs/javax.sound")
 
 def test_nist_parse():
-    with open("data/nist_CVE-2023-21830.json", "r") as file_data:
+    with open("tests/data/nist_CVE-2023-21830.json", "r") as file_data:
         nist_data = json.load(file_data)["data"]
         relevant_parts = nist_enhance.extract_relevant_parts(nist_data)
         rtg = relevant_parts["ratings"][0]
