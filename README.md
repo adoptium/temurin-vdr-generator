@@ -16,3 +16,8 @@ There are some tests, in order to run them, you can do:
 
 `python3 -m pytest`
 
+### Formatting
+This project is formatted using [black](https://pypi.org/project/black/) (a fairly standard Python formatter).To format files, use `python3 -m black <filename>.py`.
+
+`python3 -m pytest`
+
