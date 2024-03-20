@@ -11,7 +11,6 @@ To install the requirements:
 
 `python3 -m pip install -r requirements.txt`
 
-
 ### Tests
 There are some tests, in order to run them, you can do: 
 
