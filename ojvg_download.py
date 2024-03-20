@@ -18,7 +18,7 @@ while current_date < end_date:
     print(resp, flush=True)
     current_date += timedelta(days=1)
     if resp is not None:
-          responses.append(resp)
+        responses.append(resp)
 
 with open("data/openjvg_summary.json", "w") as dump:
-        dump.write(json.dumps({"data":responses}, indent = True))
+    dump.write(json.dumps({"data": responses}, indent=True))
