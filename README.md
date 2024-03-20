@@ -16,4 +16,3 @@ There are some tests, in order to run them, you can do:
 
 `python3 -m pytest`
 
-
