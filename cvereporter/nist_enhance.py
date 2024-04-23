@@ -102,7 +102,10 @@ def enhance(vulns: list[Vulnerability]):
             )
             vuln.ratings.add(vr)
         vuln.description = relevant["description"]
-        for affects in vuln.affects:
-            for ver in relevant["versions"]:
-                affects.versions.add(ver)
+        # for now - we use ojvg's version extraction
+        extract_versions_from_nist = False
+        if extract_versions_from_nist:
+            for affects in vuln.affects:
+                for ver in relevant["versions"]:
+                    affects.versions.add(ver)
         # print(vuln)

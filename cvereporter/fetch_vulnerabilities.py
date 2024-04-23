@@ -47,7 +47,7 @@ def retrieve_cves_from_internet(date: str) -> str:
                 "Referer": "http://www.google.com/",
             },
         )
-        print(r)
+        # print(r)
     except requests.exceptions.ReadTimeout:
         return None
     if r.status_code == 404:
@@ -86,10 +86,6 @@ def parse_to_dict(resp_text: str, date: str) -> list[dict]:
         # find the versions in the first row
         header = row.find("th")
         versions = []
-        print(row)
-        print("header")
-        print(header)
-        print("\n")
         if header is not None:
             component = header.find_next_sibling("th")
             if component.text == "Component":
@@ -113,8 +109,6 @@ def parse_to_dict(resp_text: str, date: str) -> list[dict]:
             if(column.text == "•"):
                 affected_major_versions.append(int(column_headers[index]))
             index +=1
-        print("affected majors")
-        print(affected_major_versions)
         if cve is not None:
             id = cve.text
             if cve.text == "None":
@@ -122,10 +116,6 @@ def parse_to_dict(resp_text: str, date: str) -> list[dict]:
             link = cve.find("a")["href"]
             componentsTD = cve.find_next_sibling("td")
             component = componentsTD.text.replace("\n", "")
-            scoreTD = componentsTD.find_next_sibling("td")
-            score = scoreTD.text
-
-            versionCheck = scoreTD
             affected_versions = []
             for version in extracted_affected:
                 if "." in version and int(version[0:version.index(".")]) in affected_major_versions:
@@ -135,8 +125,6 @@ def parse_to_dict(resp_text: str, date: str) -> list[dict]:
                     affected_versions.append(version)
                 elif version.isnumeric() and int(version) in affected_major_versions:
                     affected_versions.append(version)
-            print("affected versions")
-            print(affected_versions)
 
 
             parsed_data = {}
@@ -155,10 +143,11 @@ def dict_to_vulns(dicts: list[dict]) -> list[Vulnerability]:
     vulnerabilities = []
     for parsed_data in dicts:
         affects = BomTarget(ref=parsed_data["component"])
-        # for v in parsed_data["affected"]:
-        # todo: this is not actually true - the affected versions are just for the whole report
-        # we need to extract affected versions on a per cve basis, not a per ojvg report basis
-        # affects.versions.add(v)
+        for v in parsed_data["affected"]:
+        # todo: we assume that the affected versions are an intersection between the dots on the grid
+        # and the list of all affected versions. This may not necessarily be true, if there are multiple cves
+        # one that affects one minor version and another that affects another, within the same major version
+            affects.versions.add(v)
         vuln = Vulnerability(
             id=parsed_data["id"],
             source=VulnerabilitySource(
@@ -172,7 +161,6 @@ def dict_to_vulns(dicts: list[dict]) -> list[Vulnerability]:
         )
         vuln.affects.add(affects)
         vulnerabilities.append(vuln)
-        # print(vuln)
     return vulnerabilities
 
 

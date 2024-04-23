@@ -15,6 +15,7 @@ def test_fetch():
         assert(list(vulns[1].affects)[0].ref == "other-libs")
         assert(vulns[2].id == "CVE-2023-21843")
         assert(list(vulns[2].affects)[0].ref == "client-libs/javax.sound")
+        assert(len(list(vulns[1].affects)[0].versions)==2)
 
 
 def test_parse_to_dict():
