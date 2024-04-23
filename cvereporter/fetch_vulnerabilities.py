@@ -79,12 +79,17 @@ def parse_to_dict(resp_text: str, date: str) -> list[dict]:
     # find all the rows in the table
     rows = table.find_all("tr")
     dicts = []
+    column_headers = []
     # fetch CVE data from first td in each row
     for row in rows:
 
         # find the versions in the first row
         header = row.find("th")
         versions = []
+        print(row)
+        print("header")
+        print(header)
+        print("\n")
         if header is not None:
             component = header.find_next_sibling("th")
             if component.text == "Component":
@@ -92,8 +97,24 @@ def parse_to_dict(resp_text: str, date: str) -> list[dict]:
                 while score.find_next_sibling("th") is not None:
                     versions.append(score.find_next_sibling("th").text)
                     score = score.find_next_sibling("th")
+            # extract table column headers
+            if("CVE ID" in header.text):
+                current_column_header = header
+                while current_column_header is not None:
+                    column_headers.append(current_column_header.text)
+                    current_column_header = current_column_header.find_next_sibling("th")
+            print(column_headers)
+                
 
         cve = row.find("td")
+        affected_major_versions = []
+        index = 0
+        for column in row.find_all("td"):
+            if(column.text == "•"):
+                affected_major_versions.append(int(column_headers[index]))
+            index +=1
+        print("affected majors")
+        print(affected_major_versions)
         if cve is not None:
             id = cve.text
             if cve.text == "None":
@@ -106,9 +127,16 @@ def parse_to_dict(resp_text: str, date: str) -> list[dict]:
 
             versionCheck = scoreTD
             affected_versions = []
-            affected_versions += (
-                extracted_affected  # todo - maybe just the extracted ones
-            )
+            for version in extracted_affected:
+                if "." in version and int(version[0:version.index(".")]) in affected_major_versions:
+                    affected_versions.append(version)
+
+                elif "u" in version and int(version[0:version.index("u")]) in affected_major_versions:
+                    affected_versions.append(version)
+                elif version.isnumeric() and int(version) in affected_major_versions:
+                    affected_versions.append(version)
+            print("affected versions")
+            print(affected_versions)
             for version in versions:
                 versionCheck = versionCheck.find_next_sibling("td")
                 if versionCheck.text == "•":
