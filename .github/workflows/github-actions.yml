@@ -19,9 +19,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@37b082107ba410260a3aaddf93122e04801ce631
     - name: Set up Python 3.10
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@9a7ac94420f42ee15fc60ab88d0dca4be1fd5757
       with:
         python-version: "3.10"
     - name: Install dependencies
