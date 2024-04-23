@@ -137,10 +137,7 @@ def parse_to_dict(resp_text: str, date: str) -> list[dict]:
                     affected_versions.append(version)
             print("affected versions")
             print(affected_versions)
-            for version in versions:
-                versionCheck = versionCheck.find_next_sibling("td")
-                if versionCheck.text == "•":
-                    affected_versions.append(int(version))
+
 
             parsed_data = {}
             parsed_data["id"] = id
