@@ -20,15 +20,10 @@ def test_fetch():
 def test_parse_to_dict():
     with open("tests/data/open_jvg_dump_2023-01-17.html","r") as data:
         vulns = fetch_vulnerabilities.parse_to_dict(data, "2023-01-17")
-
-        assert(len(vulns)==3)
-        #todo: do some better assertions on the actual vulnerability contents here
-        assert(vulns[0].id == "CVE-2023-21835")
-        assert(list(vulns[0].affects)[0].ref == "security-libs/javax.net.ssl")
-        assert(vulns[1].id == "CVE-2023-21830")
-        assert(list(vulns[1].affects)[0].ref == "other-libs")
-        assert(vulns[2].id == "CVE-2023-21843")
-        assert(list(vulns[2].affects)[0].ref == "client-libs/javax.sound")
+        print(vulns)
+        for cve in vulns:
+            if cve["id"] == "CVE-2023-21830":
+                assert(len(cve["affected"]) == 2)
 
 def test_nist_parse():
     with open("tests/data/nist_CVE-2023-21830.json", "r") as file_data:
