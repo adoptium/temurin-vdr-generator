@@ -11,7 +11,6 @@ end_date = date.today()
 current_date = start_date
 responses = []
 while current_date < end_date:
-
     date_str = current_date.strftime("%Y-%m-%d")
     print(date_str)
     resp = fetch_vulnerabilities.fetch_dicts(date_str)

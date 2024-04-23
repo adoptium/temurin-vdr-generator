@@ -82,7 +82,6 @@ def parse_to_dict(resp_text: str, date: str) -> list[dict]:
     column_headers = []
     # fetch CVE data from first td in each row
     for row in rows:
-
         # find the versions in the first row
         header = row.find("th")
         versions = []
@@ -94,21 +93,22 @@ def parse_to_dict(resp_text: str, date: str) -> list[dict]:
                     versions.append(score.find_next_sibling("th").text)
                     score = score.find_next_sibling("th")
             # extract table column headers
-            if("CVE ID" in header.text):
+            if "CVE ID" in header.text:
                 current_column_header = header
                 while current_column_header is not None:
                     column_headers.append(current_column_header.text)
-                    current_column_header = current_column_header.find_next_sibling("th")
+                    current_column_header = current_column_header.find_next_sibling(
+                        "th"
+                    )
             print(column_headers)
-                
 
         cve = row.find("td")
         affected_major_versions = []
         index = 0
         for column in row.find_all("td"):
-            if(column.text == "•"):
+            if column.text == "•":
                 affected_major_versions.append(int(column_headers[index]))
-            index +=1
+            index += 1
         if cve is not None:
             id = cve.text
             if cve.text == "None":
@@ -118,14 +118,19 @@ def parse_to_dict(resp_text: str, date: str) -> list[dict]:
             component = componentsTD.text.replace("\n", "")
             affected_versions = []
             for version in extracted_affected:
-                if "." in version and int(version[0:version.index(".")]) in affected_major_versions:
+                if (
+                    "." in version
+                    and int(version[0 : version.index(".")]) in affected_major_versions
+                ):
                     affected_versions.append(version)
 
-                elif "u" in version and int(version[0:version.index("u")]) in affected_major_versions:
+                elif (
+                    "u" in version
+                    and int(version[0 : version.index("u")]) in affected_major_versions
+                ):
                     affected_versions.append(version)
                 elif version.isnumeric() and int(version) in affected_major_versions:
                     affected_versions.append(version)
-
 
             parsed_data = {}
             parsed_data["id"] = id
@@ -144,9 +149,9 @@ def dict_to_vulns(dicts: list[dict]) -> list[Vulnerability]:
     for parsed_data in dicts:
         affects = BomTarget(ref=parsed_data["component"])
         for v in parsed_data["affected"]:
-        # todo: we assume that the affected versions are an intersection between the dots on the grid
-        # and the list of all affected versions. This may not necessarily be true, if there are multiple cves
-        # one that affects one minor version and another that affects another, within the same major version
+            # todo: we assume that the affected versions are an intersection between the dots on the grid
+            # and the list of all affected versions. This may not necessarily be true, if there are multiple cves
+            # one that affects one minor version and another that affects another, within the same major version
             affects.versions.add(v)
         vuln = Vulnerability(
             id=parsed_data["id"],
