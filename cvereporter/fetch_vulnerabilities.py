@@ -170,6 +170,15 @@ def dict_to_vulns(dicts: list[dict]) -> list[Vulnerability]:
     return vulnerabilities
 
 
+'''
+We assume the text for the affected versions is in a block like:
+
+"The following vulnerabilities in OpenJDK source code were fixed in this release. 
+The affected versions are 12, 11.0.2, 8u202, 7u211, and earlier. 
+We recommend that you upgrade as soon as possible."
+
+'''
+
 def extract_affected(header_string: str) -> list[str]:
     header_string = header_string.replace("\r", "").replace("\n", " ")
     affected = []
