@@ -71,6 +71,32 @@ def populate_column_headers(column_headers, header):
             current_column_header = current_column_header.find_next_sibling("th")
 
 
+# Extracted_affected is the top level versions affected by any cves in this OJVG Email.
+# Affected_major_versions is the major java versions affected by this particular cve.
+# This function figures out which minor versions belong to the affected major versions.
+# This isn't a great heuristic (two cves might affect different minor versions of the same major version),
+# but it's the best we can get from the OJVG email.
+def intersect_major_versions_with_extracted_affected(
+    extracted_affected, affected_major_versions
+):
+    affected_versions = []
+    for version in extracted_affected:
+        if (
+            "." in version
+            and int(version[0 : version.index(".")]) in affected_major_versions
+        ):
+            affected_versions.append(version)
+
+        elif (
+            "u" in version
+            and int(version[0 : version.index("u")]) in affected_major_versions
+        ):
+            affected_versions.append(version)
+        elif version.isnumeric() and int(version) in affected_major_versions:
+            affected_versions.append(version)
+    return affected_versions
+
+
 def parse_to_dict(resp_text: str, date: str) -> list[dict]:
     if resp_text is None:
         return None
@@ -117,22 +143,9 @@ def parse_to_dict(resp_text: str, date: str) -> list[dict]:
             link = cve.find("a")["href"]
             componentsTD = cve.find_next_sibling("td")
             component = componentsTD.text.replace("\n", "")
-            affected_versions = []
-            for version in extracted_affected:
-                if (
-                    "." in version
-                    and int(version[0 : version.index(".")]) in affected_major_versions
-                ):
-                    affected_versions.append(version)
-
-                elif (
-                    "u" in version
-                    and int(version[0 : version.index("u")]) in affected_major_versions
-                ):
-                    affected_versions.append(version)
-                elif version.isnumeric() and int(version) in affected_major_versions:
-                    affected_versions.append(version)
-
+            affected_versions = intersect_major_versions_with_extracted_affected(
+                extracted_affected, affected_major_versions
+            )
             parsed_data = {}
             parsed_data["id"] = id
             parsed_data["url"] = link
@@ -170,14 +183,15 @@ def dict_to_vulns(dicts: list[dict]) -> list[Vulnerability]:
     return vulnerabilities
 
 
-'''
+"""
 We assume the text for the affected versions is in a block like:
 
 "The following vulnerabilities in OpenJDK source code were fixed in this release. 
 The affected versions are 12, 11.0.2, 8u202, 7u211, and earlier. 
 We recommend that you upgrade as soon as possible."
 
-'''
+"""
+
 
 def extract_affected(header_string: str) -> list[str]:
     header_string = header_string.replace("\r", "").replace("\n", " ")
