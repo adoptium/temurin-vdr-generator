@@ -2,7 +2,7 @@ from cvereporter import fetch_vulnerabilities, nist_enhance
 import json
 
 
-# to run just one test: python3 -m pytest -v -k test_fetch -s (in this case, runs "test_fetch")
+# To run a single test: python3 -m pytest -v -k test_fetch -s (in this case, runs "test_fetch")
 def test_fetch():
     with open("tests/data/open_jvg_dump_2023-01-17.html", "r") as data:
         vulns = fetch_vulnerabilities.parse_to_cyclone(data, "2023-01-17")

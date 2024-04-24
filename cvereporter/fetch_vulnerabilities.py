@@ -47,7 +47,6 @@ def retrieve_cves_from_internet(date: str) -> str:
                 "Referer": "http://www.google.com/",
             },
         )
-        # print(r)
     except requests.exceptions.ReadTimeout:
         return None
     if r.status_code == 404:
@@ -62,6 +61,14 @@ def retrieve_cves_from_internet(date: str) -> str:
 def parse_to_cyclone(resp_text: str, date: str) -> list[Vulnerability]:
     dicts = parse_to_dict(resp_text, date)
     return dict_to_vulns(dicts)
+
+
+def populate_column_headers(column_headers, header):
+    if "CVE ID" in header.text:
+        current_column_header = header
+        while current_column_header is not None:
+            column_headers.append(current_column_header.text)
+            current_column_header = current_column_header.find_next_sibling("th")
 
 
 def parse_to_dict(resp_text: str, date: str) -> list[dict]:
@@ -93,13 +100,7 @@ def parse_to_dict(resp_text: str, date: str) -> list[dict]:
                     versions.append(score.find_next_sibling("th").text)
                     score = score.find_next_sibling("th")
             # extract table column headers
-            if "CVE ID" in header.text:
-                current_column_header = header
-                while current_column_header is not None:
-                    column_headers.append(current_column_header.text)
-                    current_column_header = current_column_header.find_next_sibling(
-                        "th"
-                    )
+            populate_column_headers(column_headers, header)
             print(column_headers)
 
         cve = row.find("td")
@@ -171,7 +172,6 @@ def dict_to_vulns(dicts: list[dict]) -> list[Vulnerability]:
 
 def extract_affected(header_string: str) -> list[str]:
     header_string = header_string.replace("\r", "").replace("\n", " ")
-    # print(header_string)
     affected = []
     start_vulns = "The affected versions are "
     end_vulns = "Please note that defense-in-depth issues"
@@ -181,13 +181,8 @@ def extract_affected(header_string: str) -> list[str]:
         header_string.index(start_vulns)
         + len(start_vulns) : header_string.index(end_vulns)
     ]
-    # print(vulns_sub)
     for ver in vulns_sub.split(","):
         ver = ver.strip()
         if "earlier" not in ver:
             affected.append(ver)
-    # print(affected)
     return affected
-
-
-# fetch_cves('2023-01-17')
