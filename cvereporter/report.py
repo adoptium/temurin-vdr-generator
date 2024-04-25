@@ -92,7 +92,7 @@ def sbom_creation_test():
     affects1 = BomTarget(ref="temurin-vdr")
     vuln1.affects.add(affects1)
 
-    my_json_outputter: "JsonOutputter" = JsonV1Dot4(bom)
+    my_json_outputter = JsonV1Dot4(bom)
     serialized_json = my_json_outputter.output_as_string(indent=2)
     print("\n\n\n")
     print(serialized_json)
