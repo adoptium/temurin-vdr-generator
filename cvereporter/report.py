@@ -43,7 +43,7 @@ def get_base_bom() -> Bom:
 
 
 def serialize_to_json(bom: Bom) -> str:
-    my_json_outputter: "JsonOutputter" = JsonV1Dot4(bom)
+    my_json_outputter = JsonV1Dot4(bom)
     serialized_json = my_json_outputter.output_as_string(indent=2)
     print("\n\n\n")
     print(serialized_json)
