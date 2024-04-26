@@ -1,12 +1,8 @@
-from cyclonedx.model.impact_analysis import ImpactAnalysisAffectedStatus
 from cyclonedx.model.vulnerability import (
     Vulnerability,
     VulnerabilitySource,
     VulnerabilityScoreSource,
     VulnerabilityRating,
-    VulnerabilitySeverity,
-    BomTarget,
-    BomTargetVersionRange,
 )
 import requests
 import json

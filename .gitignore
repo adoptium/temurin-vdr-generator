@@ -1,1 +1,5 @@
 **/__pycache__/*
+lib/
+bin/
+share/
+pyvenv.cfg

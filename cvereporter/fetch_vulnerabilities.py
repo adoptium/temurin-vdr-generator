@@ -1,19 +1,13 @@
 #!/usr/bin/env python3
 
-import argparse
 import json
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
-from cyclonedx.model.impact_analysis import ImpactAnalysisAffectedStatus
 from cyclonedx.model.vulnerability import (
     Vulnerability,
     VulnerabilitySource,
-    VulnerabilityScoreSource,
-    VulnerabilityRating,
-    VulnerabilitySeverity,
     BomTarget,
-    BomTargetVersionRange,
 )
 
 """

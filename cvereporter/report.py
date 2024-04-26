@@ -1,6 +1,5 @@
-from cyclonedx.exception import MissingOptionalDependencyException
 from cyclonedx.factory.license import LicenseFactory
-from cyclonedx.model import OrganizationalEntity, XsUri, ExternalReferenceType
+from cyclonedx.model import XsUri, ExternalReferenceType
 from cyclonedx.model.bom import Bom
 from cyclonedx.model.component import Component, ComponentType, ExternalReference
 from cyclonedx.model.impact_analysis import ImpactAnalysisAffectedStatus
@@ -14,8 +13,6 @@ from cyclonedx.model.vulnerability import (
     BomTargetVersionRange,
 )
 from cyclonedx.output.json import JsonV1Dot4
-from cyclonedx.schema import SchemaVersion, OutputFormat
-from cyclonedx.validation.json import JsonStrictValidator
 from datetime import datetime
 
 """
