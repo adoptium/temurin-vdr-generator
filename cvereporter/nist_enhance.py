@@ -102,7 +102,12 @@ def enhance(vulns: list[Vulnerability]):
             )
             vuln.ratings.add(vr)
         vuln.description = relevant["description"]
-        for affects in vuln.affects:
-            for ver in relevant["versions"]:
-                affects.versions.add(ver)
+        # for now - we use versions we extract when we download from OpenJDK Vulnerability group
+        # this version extraction is tied to the Oracle JDKs which might not map directly to openjdk versions
+        # that approach also has limitations: we have to do a bit of guesswork mapping cves to versions
+        extract_versions_from_nist = False
+        if extract_versions_from_nist:
+            for affects in vuln.affects:
+                for ver in relevant["versions"]:
+                    affects.versions.add(ver)
         # print(vuln)

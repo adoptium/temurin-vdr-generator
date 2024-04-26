@@ -7,11 +7,10 @@ a brute force ojvg downloader which iterates through all dates from 1 jan 2019 (
 It downloads all the vulnerability reports as html files to the `data` directory and saves the relevant data in `data/ojvg_summary.json`
 """
 start_date = date(2019, 1, 1)
-end_date = date(2024, 2, 4)
+end_date = date.today()
 current_date = start_date
 responses = []
 while current_date < end_date:
-
     date_str = current_date.strftime("%Y-%m-%d")
     print(date_str)
     resp = fetch_vulnerabilities.fetch_dicts(date_str)
