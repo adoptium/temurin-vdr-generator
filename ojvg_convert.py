@@ -1,5 +1,5 @@
 import json
-from cve_pipeline import fetch_vulnerabilities, report, nist_enhance
+from cvereporter import fetch_vulnerabilities, report, nist_enhance
 
 """
 This file will take a downloaded version of all the CVEs from OJVG which are retrieved by ojvg_download.py and enhance with NIST data, resulting in the creation of the VDR.
