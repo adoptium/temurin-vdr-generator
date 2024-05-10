@@ -2,9 +2,12 @@ name: VDR Creation
 
 on:
   workflow_dispatch:
-    branches: [ main ]
+    branches: [ main,  ]
   push:
     branches: [ main ]
+  pull_request: # todo: do we want it to run on all PRs?
+    branches: [ "main" ]
+
 
 jobs:
   build:
