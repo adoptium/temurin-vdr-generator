@@ -32,8 +32,9 @@ jobs:
       run: |
         mkdir -p data
         python3 ojvg_download.py
+        python3 ojvg_convert.py
     - name: Upload data directory
       uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 #v4.3.3
       with:
-        name: openjvg_summary.json
-        path: data/openjvg_summary.json
+        name: data directory
+        path: data
