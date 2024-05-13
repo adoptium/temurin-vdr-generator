@@ -25,7 +25,6 @@ def fetch_nist(url: str, id: str) -> dict:
         print("making call to NIST without using api key!")
         time.sleep(10) # stay well within 5 requests/30 seconds
         nist_resp = requests.get(url)
-    time.sleep(sleep_time)
     if nist_resp.status_code != 200:
         print(
             "error fetching {}; status code: {}; text: {}".format(
