@@ -2,7 +2,6 @@ name: VDR Creation
 
 on:
   workflow_dispatch:
-    branches: [ main,  ]
   push:
     branches: [ main ]
   pull_request: # todo: do we want it to run on all PRs?
@@ -29,6 +28,8 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: Download ojvg
+      env:
+            NIST_NVD_TOKEN: ${{ secrets.NIST_NVD_TOKEN }}
       run: |
         mkdir -p data
         python3 ojvg_download.py
