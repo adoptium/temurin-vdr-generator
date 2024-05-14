@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ]
-  pull_request: # todo: do we want it to run on all PRs?
+  pull_request: # prs don't get secrets, but the API works (albeit 10x slower) without the api key
     branches: [ main ]
 
 
