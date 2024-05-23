@@ -102,7 +102,9 @@ def parse_to_dict(resp_text: str, date: str) -> list[dict]:
 
     # find the table with the CVEs
     table = soup.find("table", attrs={"class": "risk-matrix"})
-
+    if table is None:
+        print("unable to find risk matrix for "+date)
+        return None
     # find all the rows in the table
     rows = table.find_all("tr")
     dicts = []
@@ -180,8 +182,8 @@ def dict_to_vulns(dicts: list[dict]) -> list[Vulnerability]:
 """
 We assume the text for the affected versions is in a block like:
 
-"The following vulnerabilities in OpenJDK source code were fixed in this release. 
-The affected versions are 12, 11.0.2, 8u202, 7u211, and earlier. 
+"The following vulnerabilities in OpenJDK source code were fixed in this release.
+The affected versions are 12, 11.0.2, 8u202, 7u211, and earlier.
 We recommend that you upgrade as soon as possible."
 
 """
