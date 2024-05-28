@@ -6,6 +6,8 @@ from cyclonedx.model.vulnerability import (
 )
 import requests
 import json
+import time
+import os
 
 """
 this file has the utilities for downloading data about cves from NIST and updating Vulnerability objects with the data
@@ -14,7 +16,15 @@ this file has the utilities for downloading data about cves from NIST and updati
 
 def fetch_nist(url: str, id: str) -> dict:
     data = None
-    nist_resp = requests.get(url)
+    nist_resp = None
+    if "NIST_NVD_TOKEN" in os.environ and os.environ["NIST_NVD_TOKEN"]: # check not empty
+        print("making call to NIST using api key! "+url, flush=True)
+        time.sleep(1) # stay well within 50 requests/30 seconds
+        nist_resp = requests.get(url, headers= {"apiKey": os.environ["NIST_NVD_TOKEN"]})
+    else:
+        print("making call to NIST without using api key! "+url, flush=True)
+        time.sleep(10) # stay well within 5 requests/30 seconds
+        nist_resp = requests.get(url)
     if nist_resp.status_code != 200:
         print(
             "error fetching {}; status code: {}; text: {}".format(
