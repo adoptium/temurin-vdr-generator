@@ -131,7 +131,7 @@ def parse_to_dict(resp_text: str, date: str, ojvg_url: str) -> list[dict]:
         affected_major_versions = []
         index = 0
         for column in row.find_all("td"):
-            if column.text == "•":
+            if "•" in column.text:
                 affected_major_versions.append(int(column_headers[index]))
             index += 1
         if cve is not None:
@@ -141,6 +141,8 @@ def parse_to_dict(resp_text: str, date: str, ojvg_url: str) -> list[dict]:
             link = cve.find("a")["href"]
             componentsTD = cve.find_next_sibling("td")
             component = componentsTD.text.replace("\n", "")
+            score_td = componentsTD.find_next_sibling()
+            score_text = score_td.text
             affected_versions = intersect_major_versions_with_extracted_affected(
                 extracted_affected, affected_major_versions
             )
@@ -151,6 +153,7 @@ def parse_to_dict(resp_text: str, date: str, ojvg_url: str) -> list[dict]:
             parsed_data["component"] = component
             parsed_data["affected"] = affected_versions
             parsed_data["ojvg_url"] = ojvg_url
+            parsed_data["ojvg_score"] = score_text
             print(json.dumps(parsed_data))
             dicts.append(parsed_data)
 
@@ -180,7 +183,7 @@ def dict_to_vulns(dicts: list[dict]) -> list[Vulnerability]:
         vuln.affects.add(affects)
         vr = VulnerabilityRating(
             source=parsed_data["ojvg_url"],
-            score=None,  # todo
+            score=parsed_data["ojvg_score"],
             method=VulnerabilityScoreSource.CVSS_V3_1,
         )
         vuln.ratings.add(vr)
@@ -203,6 +206,8 @@ def extract_affected(header_string: str) -> list[str]:
     affected = []
     start_vulns = "The affected versions are "
     end_vulns = "Please note that defense-in-depth issues"
+    if end_vulns not in header_string:
+        end_vulns = "We recommend that you upgrade"  # there is some inconsistency in earlier (2019) formulaic text
     if start_vulns not in header_string or end_vulns not in header_string:
         return []
     vulns_sub = header_string[
