@@ -153,7 +153,11 @@ def parse_to_dict(resp_text: str, date: str, ojvg_url: str) -> list[dict]:
             parsed_data["component"] = component
             parsed_data["affected"] = affected_versions
             parsed_data["ojvg_url"] = ojvg_url
-            parsed_data["ojvg_score"] = score_text
+            try:
+                parsed_data["ojvg_score"] = score_text
+            except ValueError:
+                print(score_text + " is not a valid score float")
+                parsed_data["ojvg_score"] = float("nan")
             print(json.dumps(parsed_data))
             dicts.append(parsed_data)
 
