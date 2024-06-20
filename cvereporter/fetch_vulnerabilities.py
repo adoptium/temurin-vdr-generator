@@ -6,7 +6,9 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from cyclonedx.model.vulnerability import (
     Vulnerability,
+    VulnerabilityScoreSource,
     VulnerabilitySource,
+    VulnerabilityRating,
     BomTarget,
 )
 
@@ -20,8 +22,8 @@ def fetch_cves(date: str) -> list[Vulnerability]:
 
 
 def fetch_dicts(date: str):
-    cve_text = retrieve_cves_from_internet(date)
-    dicts = parse_to_dict(cve_text, date)
+    cve_text, url = retrieve_cves_from_internet(date)
+    dicts = parse_to_dict(cve_text, date, url)
     return dicts
 
 
@@ -42,18 +44,18 @@ def retrieve_cves_from_internet(date: str) -> str:
             },
         )
     except requests.exceptions.ReadTimeout:
-        return None
+        return None, None
     if r.status_code == 404:
-        return None
+        return None, None
     resp_text = r.text
     # todo: make this configurable
     with open("data/open_jvg_dump_" + date + ".html", "w") as dump:
         dump.write(resp_text)
-    return resp_text
+    return resp_text, url
 
 
-def parse_to_cyclone(resp_text: str, date: str) -> list[Vulnerability]:
-    dicts = parse_to_dict(resp_text, date)
+def parse_to_cyclone(resp_text: str, date: str, ojvg_url: str) -> list[Vulnerability]:
+    dicts = parse_to_dict(resp_text, date, ojvg_url)
     return dict_to_vulns(dicts)
 
 
@@ -91,7 +93,7 @@ def intersect_major_versions_with_extracted_affected(
     return affected_versions
 
 
-def parse_to_dict(resp_text: str, date: str) -> list[dict]:
+def parse_to_dict(resp_text: str, date: str, ojvg_url: str) -> list[dict]:
     if resp_text is None:
         return None
     soup = BeautifulSoup(resp_text, "html.parser")
@@ -103,7 +105,7 @@ def parse_to_dict(resp_text: str, date: str) -> list[dict]:
     # find the table with the CVEs
     table = soup.find("table", attrs={"class": "risk-matrix"})
     if table is None:
-        print("unable to find risk matrix for "+date)
+        print("unable to find risk matrix for " + date)
         return None
     # find all the rows in the table
     rows = table.find_all("tr")
@@ -148,6 +150,7 @@ def parse_to_dict(resp_text: str, date: str) -> list[dict]:
             parsed_data["date"] = date
             parsed_data["component"] = component
             parsed_data["affected"] = affected_versions
+            parsed_data["ojvg_url"] = ojvg_url
             print(json.dumps(parsed_data))
             dicts.append(parsed_data)
 
@@ -175,6 +178,12 @@ def dict_to_vulns(dicts: list[dict]) -> list[Vulnerability]:
             recommendation="",
         )
         vuln.affects.add(affects)
+        vr = VulnerabilityRating(
+            source=parsed_data["ojvg_url"],
+            score=None,  # todo
+            method=VulnerabilityScoreSource.CVSS_V3_1,
+        )
+        vuln.ratings.add(vr)
         vulnerabilities.append(vuln)
     return vulnerabilities
 
