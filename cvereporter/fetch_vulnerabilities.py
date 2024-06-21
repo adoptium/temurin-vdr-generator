@@ -154,7 +154,7 @@ def parse_to_dict(resp_text: str, date: str, ojvg_url: str) -> list[dict]:
             parsed_data["affected"] = affected_versions
             parsed_data["ojvg_url"] = ojvg_url
             try:
-                parsed_data["ojvg_score"] = score_text
+                parsed_data["ojvg_score"] = float(score_text)
             except ValueError:
                 print(score_text + " is not a valid score float")
                 parsed_data["ojvg_score"] = float("nan")
