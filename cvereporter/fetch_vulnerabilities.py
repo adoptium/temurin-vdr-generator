@@ -143,6 +143,10 @@ def parse_to_dict(resp_text: str, date: str, ojvg_url: str) -> list[dict]:
             component = componentsTD.text.replace("\n", "")
             score_td = componentsTD.find_next_sibling()
             score_text = score_td.text
+            if score_text is not None:
+                score_text = score_text.split()[
+                    0
+                ]  # in 2024, we start seeing 2 line things with "NHNNUHHHN" which is not a number
             affected_versions = intersect_major_versions_with_extracted_affected(
                 extracted_affected, affected_major_versions
             )
