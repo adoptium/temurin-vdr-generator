@@ -5,7 +5,9 @@ import json
 # To run a single test: python3 -m pytest -v -k test_fetch -s (in this case, runs "test_fetch")
 def test_fetch():
     with open("tests/data/open_jvg_dump_2023-01-17.html", "r") as data:
-        vulns = fetch_vulnerabilities.parse_to_cyclone(data, "2023-01-17")
+        vulns = fetch_vulnerabilities.parse_to_cyclone(
+            data, "2023-01-17", "www.fakeurl.com"
+        )
 
         print(vulns)
         assert len(vulns) == 3
@@ -21,11 +23,14 @@ def test_fetch():
 
 def test_parse_to_dict():
     with open("tests/data/open_jvg_dump_2023-01-17.html", "r") as data:
-        vulns = fetch_vulnerabilities.parse_to_dict(data, "2023-01-17")
+        vulns = fetch_vulnerabilities.parse_to_dict(
+            data, "2023-01-17", "www.fakeurl.com"
+        )
         print(vulns)
         for cve in vulns:
             if cve["id"] == "CVE-2023-21830":
                 assert len(cve["affected"]) == 2
+            assert cve["ojvg_url"] == "www.fakeurl.com"
 
 
 def test_nist_parse():
