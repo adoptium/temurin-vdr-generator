@@ -113,6 +113,3 @@ def sbom_creation_test():
     serialized_json = my_json_outputter.output_as_string(indent=2)
     print("\n\n\n")
     print(serialized_json)
-
-
-# validate_bom(open("vdr.json","r").read())
