@@ -51,7 +51,7 @@ def fetch_nist(url: str, id: str) -> Optional[dict]:
         """
     else:
         data = nist_resp.json()
-        with open(file_location) as dest:
+        with open(file_location, "w") as dest:
             json.dump({"url": url, "data": data}, dest, indent=True)
     return data
 
