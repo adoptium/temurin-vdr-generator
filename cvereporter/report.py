@@ -1,6 +1,6 @@
 from cyclonedx.factory.license import LicenseFactory
 from cyclonedx.model import XsUri, ExternalReferenceType
-from cyclonedx.model.bom import Bom
+from cyclonedx.model.bom import Bom, OrganizationalEntity
 from cyclonedx.model.component import Component, ComponentType, ExternalReference
 from cyclonedx.model.impact_analysis import ImpactAnalysisAffectedStatus
 from cyclonedx.model.vulnerability import (
@@ -28,7 +28,10 @@ def get_base_bom() -> Bom:
         type=ComponentType.APPLICATION,
         licenses=[lc_factory.make_from_string("GPL-2.0 WITH Classpath-exception-2.0")],
         bom_ref="temurin-vdr",
-        supplier="Eclipse foundation",
+        supplier=OrganizationalEntity(
+            name="Eclipse Foundation",
+            urls=[XsUri("https://www.eclipse.org/org/foundation/")],
+        ),
         external_references=[
             ExternalReference(
                 type=ExternalReferenceType.DISTRIBUTION,
