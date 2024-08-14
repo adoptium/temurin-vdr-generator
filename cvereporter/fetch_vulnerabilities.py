@@ -2,7 +2,7 @@
 
 import json
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 from datetime import datetime
 from cyclonedx.model.vulnerability import (
     Vulnerability,
@@ -11,6 +11,7 @@ from cyclonedx.model.vulnerability import (
     VulnerabilityRating,
     BomTarget,
 )
+from typing import Optional
 
 """
 Utilities to fetch data from OJVG and convert it to intermediate representations/CycloneDX structure
@@ -27,7 +28,7 @@ def fetch_dicts(date: str):
     return dicts
 
 
-def retrieve_cves_from_internet(date: str) -> str:
+def retrieve_cves_from_internet(date: str) -> tuple[Optional[str], Optional[str]]:
     # fetch the CVEs for the given date
     url = "https://openjdk.org/groups/vulnerability/advisories/" + date
     print(url)
@@ -93,14 +94,18 @@ def intersect_major_versions_with_extracted_affected(
     return affected_versions
 
 
-def parse_to_dict(resp_text: str, date: str, ojvg_url: str) -> list[dict]:
+def parse_to_dict(
+    resp_text: Optional[str], date: str, ojvg_url: Optional[str]
+) -> Optional[list[dict]]:
     if resp_text is None:
         return None
     soup = BeautifulSoup(resp_text, "html.parser")
 
     # find the versions affected
     header_string = soup.find(name="p")
-    extracted_affected = extract_affected(header_string.text)
+    extracted_affected = extract_affected(
+        header_string.text if header_string is not None else ""
+    )
 
     # find the table with the CVEs
     table = soup.find("table", attrs={"class": "risk-matrix"})
@@ -108,9 +113,9 @@ def parse_to_dict(resp_text: str, date: str, ojvg_url: str) -> list[dict]:
         print("unable to find risk matrix for " + date)
         return None
     # find all the rows in the table
-    rows = table.find_all("tr")
+    rows = table.find_all("tr") if isinstance(table, Tag) else []
     dicts = []
-    column_headers = []
+    column_headers: list[str] = []
     # fetch CVE data from first td in each row
     for row in rows:
         # find the versions in the first row
@@ -168,7 +173,9 @@ def parse_to_dict(resp_text: str, date: str, ojvg_url: str) -> list[dict]:
     return dicts
 
 
-def dict_to_vulns(dicts: list[dict]) -> list[Vulnerability]:
+def dict_to_vulns(dicts: Optional[list[dict]]) -> list[Vulnerability]:
+    if dicts is None:
+        return []
     vulnerabilities = []
     for parsed_data in dicts:
         affects = BomTarget(ref=parsed_data["component"])
@@ -209,7 +216,9 @@ We recommend that you upgrade as soon as possible."
 """
 
 
-def extract_affected(header_string: str) -> list[str]:
+def extract_affected(header_string: Optional[str]) -> list[str]:
+    if header_string is None:
+        return []
     header_string = header_string.replace("\r", "").replace("\n", " ")
     affected = []
     start_vulns = "The affected versions are "
