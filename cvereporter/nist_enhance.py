@@ -5,6 +5,8 @@ from cyclonedx.model.vulnerability import (
     VulnerabilitySource,
     VulnerabilityScoreSource,
     VulnerabilityRating,
+    BomTarget,
+    BomTargetVersionRange,
 )
 import requests
 import json
@@ -17,6 +19,14 @@ this file has the utilities for downloading data about cves from NIST and updati
 
 
 def fetch_nist(url: str, id: str) -> Optional[dict]:
+    file_location = "data/nist_" + id + ".json"
+    try:
+        with open(file_location, "r") as the_file:
+            data = json.load(the_file)["data"]
+            print("resolved from cache " + url)
+            return data
+    except:
+        print("unable to find pre-fetched nist response, actually performing fetch.")
     data = None
     nist_resp = None
     if (
@@ -41,7 +51,7 @@ def fetch_nist(url: str, id: str) -> Optional[dict]:
         """
     else:
         data = nist_resp.json()
-        with open("data/nist_" + id + ".json", "w") as dest:
+        with open(file_location) as dest:
             json.dump({"url": url, "data": data}, dest, indent=True)
     return data
 
@@ -131,5 +141,5 @@ def enhance(vulns: list[Vulnerability]):
         if extract_versions_from_nist:
             for affects in vuln.affects:
                 for ver in relevant["versions"]:
-                    affects.versions.add(ver)
+                    affects.versions.add(BomTargetVersionRange(version=ver))
         # print(vuln)

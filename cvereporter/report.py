@@ -12,6 +12,9 @@ from cyclonedx.model.vulnerability import (
     BomTarget,
     BomTargetVersionRange,
 )
+from cyclonedx.validation.json import JsonStrictValidator
+from cyclonedx.exception import MissingOptionalDependencyException
+from cyclonedx.schema import SchemaVersion
 from cyclonedx.output.json import JsonV1Dot4
 from datetime import datetime
 
@@ -47,7 +50,21 @@ def serialize_to_json(bom: Bom) -> str:
     serialized_json = my_json_outputter.output_as_string(indent=2)
     print("\n\n\n")
     print(serialized_json)
+    validate_bom(serialized_json)
     return serialized_json
+
+
+def validate_bom(bom_str: str):
+    # todo: should we fail the build if this fails?
+    my_json_validator = JsonStrictValidator(SchemaVersion.V1_6)
+    try:
+        validation_errors = my_json_validator.validate_str(bom_str)
+        if validation_errors:
+            print("JSON invalid", "ValidationError:", repr(validation_errors), sep="\n")
+        else:
+            print("JSON valid")
+    except MissingOptionalDependencyException as error:
+        print("JSON-validation was skipped due to", error)
 
 
 def sbom_creation_test():
@@ -96,3 +113,6 @@ def sbom_creation_test():
     serialized_json = my_json_outputter.output_as_string(indent=2)
     print("\n\n\n")
     print(serialized_json)
+
+
+# validate_bom(open("vdr.json","r").read())

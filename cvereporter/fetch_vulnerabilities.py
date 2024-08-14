@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from decimal import Decimal
 import json
 import requests
 from bs4 import BeautifulSoup, Tag
@@ -10,6 +11,7 @@ from cyclonedx.model.vulnerability import (
     VulnerabilitySource,
     VulnerabilityRating,
     BomTarget,
+    BomTargetVersionRange,
 )
 from typing import Optional
 
@@ -183,7 +185,8 @@ def dict_to_vulns(dicts: Optional[list[dict]]) -> list[Vulnerability]:
             # todo: we assume that the affected versions are an intersection between the dots on the grid
             # and the list of all affected versions. This may not necessarily be true, if there are multiple cves
             # one that affects one minor version and another that affects another, within the same major version
-            affects.versions.add(v)
+            # todo: figure out the openjdk purl we should use - a purl version range string is expected, but not valdiated
+            affects.versions.add(BomTargetVersionRange(version=v))
         vuln = Vulnerability(
             id=parsed_data["id"],
             source=VulnerabilitySource(
@@ -197,8 +200,10 @@ def dict_to_vulns(dicts: Optional[list[dict]]) -> list[Vulnerability]:
         )
         vuln.affects.add(affects)
         vr = VulnerabilityRating(
-            source=parsed_data["ojvg_url"],
-            score=parsed_data["ojvg_score"],
+            source=VulnerabilitySource(
+                name="OpenJDK Vulnerability", url=parsed_data["ojvg_url"]
+            ),
+            score=Decimal.from_float(parsed_data["ojvg_score"]),
             method=VulnerabilityScoreSource.CVSS_V3_1,
         )
         vuln.ratings.add(vr)
