@@ -1,8 +1,12 @@
+from decimal import Decimal
+from typing import Any, Optional
 from cyclonedx.model.vulnerability import (
     Vulnerability,
     VulnerabilitySource,
     VulnerabilityScoreSource,
     VulnerabilityRating,
+    BomTarget,
+    BomTargetVersionRange,
 )
 import requests
 import json
@@ -14,7 +18,15 @@ this file has the utilities for downloading data about cves from NIST and updati
 """
 
 
-def fetch_nist(url: str, id: str) -> dict:
+def fetch_nist(url: str, id: str) -> Optional[dict]:
+    file_location = "data/nist_" + id + ".json"
+    try:
+        with open(file_location, "r") as the_file:
+            data = json.load(the_file)["data"]
+            print("resolved from cache " + url)
+            return data
+    except:
+        print("unable to find pre-fetched nist response, actually performing fetch.")
     data = None
     nist_resp = None
     if (
@@ -39,14 +51,14 @@ def fetch_nist(url: str, id: str) -> dict:
         """
     else:
         data = nist_resp.json()
-        with open("data/nist_" + id + ".json", "w") as dest:
+        with open(file_location, "w") as dest:
             json.dump({"url": url, "data": data}, dest, indent=True)
     return data
 
 
 def extract_relevant_parts(nist_resp: dict) -> dict:
     # todo: this can use a unit test at some point
-    resp_dict = {}
+    resp_dict: dict[str, Any] = {}
     ratings = []
     cve = nist_resp["vulnerabilities"][0]["cve"]
     # todo: do we have more than 1 cve in a resp?
@@ -90,8 +102,14 @@ def enhance(vulns: list[Vulnerability]):
     for vuln in vulns:
         count += 1
         id = vuln.id
-        url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=" + id
-        nist_resp = fetch_nist(url, id)
+        nist_resp = None
+        if id:
+            url = (
+                "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=" + id
+                if id
+                else "notfound"
+            )
+            nist_resp = fetch_nist(url, id)
         if nist_resp is None:
             continue
         try:
@@ -110,7 +128,7 @@ def enhance(vulns: list[Vulnerability]):
             # todo: convert the ratings into the cyclonedx enums?
             vr = VulnerabilityRating(
                 source=VulnerabilitySource(url=rating["source"]),
-                score=score_float,
+                score=Decimal.from_float(score_float),
                 vector=rating["vector"],
                 method=VulnerabilityScoreSource.CVSS_V3_1,
             )
@@ -123,5 +141,5 @@ def enhance(vulns: list[Vulnerability]):
         if extract_versions_from_nist:
             for affects in vuln.affects:
                 for ver in relevant["versions"]:
-                    affects.versions.add(ver)
+                    affects.versions.add(BomTargetVersionRange(version=ver))
         # print(vuln)

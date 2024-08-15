@@ -1,6 +1,6 @@
 from cyclonedx.factory.license import LicenseFactory
 from cyclonedx.model import XsUri, ExternalReferenceType
-from cyclonedx.model.bom import Bom
+from cyclonedx.model.bom import Bom, OrganizationalEntity
 from cyclonedx.model.component import Component, ComponentType, ExternalReference
 from cyclonedx.model.impact_analysis import ImpactAnalysisAffectedStatus
 from cyclonedx.model.vulnerability import (
@@ -12,6 +12,9 @@ from cyclonedx.model.vulnerability import (
     BomTarget,
     BomTargetVersionRange,
 )
+from cyclonedx.validation.json import JsonStrictValidator
+from cyclonedx.exception import MissingOptionalDependencyException
+from cyclonedx.schema import SchemaVersion
 from cyclonedx.output.json import JsonV1Dot4
 from datetime import datetime
 
@@ -28,7 +31,10 @@ def get_base_bom() -> Bom:
         type=ComponentType.APPLICATION,
         licenses=[lc_factory.make_from_string("GPL-2.0 WITH Classpath-exception-2.0")],
         bom_ref="temurin-vdr",
-        supplier="Eclipse foundation",
+        supplier=OrganizationalEntity(
+            name="Eclipse Foundation",
+            urls=[XsUri("https://www.eclipse.org/org/foundation/")],
+        ),
         external_references=[
             ExternalReference(
                 type=ExternalReferenceType.DISTRIBUTION,
@@ -44,7 +50,21 @@ def serialize_to_json(bom: Bom) -> str:
     serialized_json = my_json_outputter.output_as_string(indent=2)
     print("\n\n\n")
     print(serialized_json)
+    validate_bom(serialized_json)
     return serialized_json
+
+
+def validate_bom(bom_str: str):
+    # todo: should we fail the build if this fails?
+    my_json_validator = JsonStrictValidator(SchemaVersion.V1_6)
+    try:
+        validation_errors = my_json_validator.validate_str(bom_str)
+        if validation_errors:
+            print("JSON invalid", "ValidationError:", repr(validation_errors), sep="\n")
+        else:
+            print("JSON valid")
+    except MissingOptionalDependencyException as error:
+        print("JSON-validation was skipped due to", error)
 
 
 def sbom_creation_test():
