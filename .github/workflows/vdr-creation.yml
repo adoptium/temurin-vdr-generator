@@ -32,12 +32,12 @@ jobs:
         python3 ojvg_download.py
         python3 ojvg_convert.py
     - name: Upload data directory (for debugging/introspection)
-      uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
+      uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
       with:
         name: data directory
         path: data
     - name: Upload final vdr
-      uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
+      uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
       with:
         name: final vdr
         path: data/vdr.json
