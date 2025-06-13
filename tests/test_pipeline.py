@@ -1,4 +1,4 @@
-from cvereporter import fetch_vulnerabilities, nist_enhance
+from cvereporter import fetch_vulnerabilities, nist_enhance, fetch_dates
 import json
 
 
@@ -44,3 +44,20 @@ def test_nist_parse():
         assert rtg["severity"] == "MEDIUM"
         assert rtg["vector"] == "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
         assert len(relevant_parts["versions"]) == 4
+
+def test_fetch_advisory_dates(): 
+    with open("tests/data/open_jvg_dates.html", "r") as data:
+        html = data.read()
+        dates = fetch_dates.fetch_advisory_dates(html)  
+        assert len(dates) > 0
+        
+        # Check dates are in the expected format (YYYY-MM-DD)
+        assert all(len(date.split("-")) == 3 for date in dates)
+        
+        for date in dates:
+            y, m, d = date.split("-")
+            assert(y.isdigit() and m.isdigit() and d.isdigit())
+            assert(len(y) == 4 and len(m) == 2 and len(d) == 2)
+            assert(1 <= int(m) <= 12)
+            assert(1 <= int(d) <= 31) 
+
