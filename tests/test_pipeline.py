@@ -19,7 +19,7 @@ def test_fetch():
         assert vulns[2].id == "CVE-2023-21843"
         assert list(vulns[2].affects)[0].ref == "pkg:github/openjdk/jdk"
         assert len(list(vulns[1].affects)[0].versions) == 1
-        assert list(vulns[1].affects)[0].versions[0].range == "vers:generic/8u352|7u361"
+        assert list(vulns[1].affects)[0].versions[0].range == "vers:generic/7u361|8u352"
 
 
 

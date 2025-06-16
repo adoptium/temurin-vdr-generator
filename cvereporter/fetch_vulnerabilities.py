@@ -190,6 +190,7 @@ def dict_to_vulns(dicts: Optional[list[dict]]) -> list[Vulnerability]:
             # todo: figure out the openjdk purl we should use - a purl version range string is expected, but not valdiated
             # Generate a version range using the `vers:` format
             normalized_versions = [v.strip() for v in parsed_data["affected"]]
+            normalized_versions.sort()
             version_range_str = "vers:generic/" + "|".join(normalized_versions)
             affects.versions.add(BomTargetVersionRange(range=version_range_str))
         vuln = Vulnerability(
