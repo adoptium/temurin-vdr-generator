@@ -180,13 +180,19 @@ def dict_to_vulns(dicts: Optional[list[dict]]) -> list[Vulnerability]:
         return []
     vulnerabilities = []
     for parsed_data in dicts:
-        affects = BomTarget(ref=parsed_data["component"])
-        for v in parsed_data["affected"]:
+
+        # Use GitHub as the standard PURL to represent OpenJDK
+        affects = BomTarget(ref="pkg:github/openjdk/jdk")
+        if parsed_data["affected"]:
             # todo: we assume that the affected versions are an intersection between the dots on the grid
             # and the list of all affected versions. This may not necessarily be true, if there are multiple cves
             # one that affects one minor version and another that affects another, within the same major version
             # todo: figure out the openjdk purl we should use - a purl version range string is expected, but not valdiated
-            affects.versions.add(BomTargetVersionRange(version=v))
+            # Generate a version range using the `vers:` format
+            normalized_versions = [v.strip() for v in parsed_data["affected"]]
+            normalized_versions.sort()
+            version_range_str = "vers:generic/" + "|".join(normalized_versions)
+            affects.versions.add(BomTargetVersionRange(range=version_range_str))
         vuln = Vulnerability(
             id=parsed_data["id"],
             source=VulnerabilitySource(

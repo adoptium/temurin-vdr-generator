@@ -13,12 +13,14 @@ def test_fetch():
         assert len(vulns) == 3
         # todo: do some better assertions on the actual vulnerability contents here
         assert vulns[0].id == "CVE-2023-21835"
-        assert list(vulns[0].affects)[0].ref == "security-libs/javax.net.ssl"
+        assert list(vulns[0].affects)[0].ref == "pkg:github/openjdk/jdk"
         assert vulns[1].id == "CVE-2023-21830"
-        assert list(vulns[1].affects)[0].ref == "other-libs"
+        assert list(vulns[1].affects)[0].ref == "pkg:github/openjdk/jdk"
         assert vulns[2].id == "CVE-2023-21843"
-        assert list(vulns[2].affects)[0].ref == "client-libs/javax.sound"
-        assert len(list(vulns[1].affects)[0].versions) == 2
+        assert list(vulns[2].affects)[0].ref == "pkg:github/openjdk/jdk"
+        assert len(list(vulns[1].affects)[0].versions) == 1
+        assert list(vulns[1].affects)[0].versions[0].range == "vers:generic/7u361|8u352"
+
 
 
 def test_parse_to_dict():
