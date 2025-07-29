@@ -17,6 +17,4 @@ jobs:
       env:
         DEPENDENCY_TRACK_API_KEY: ${{ secrets.DEP_TRACK_TOKEN }}
       run: |
-        curl -H "X-Api-Key: $DEPENDENCY_TRACK_API_KEY" https://sbom.eclipse.org/dashboard:8081/api/v1/project
-
-
+        curl -s -H "X-Api-Key: $DEPENDENCY_TRACK_API_KEY" https://sbom.eclipse.org/api/v1/vulnerability/project/3fe77d48-737b-4d3f-9edc-3e6c4287069c
