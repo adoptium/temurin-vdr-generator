@@ -10,16 +10,55 @@ We use `ojvg_convert.py` to generate CycloneDX format objects, enhance with data
 
 To install the requirements:
 
-`python3 -m pip install -r requirements.txt`
+```sh
+# (Recommended) create a local virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# install project dependencies
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+
+# install pytest if it's not already available
+python -m pip install pytest
+```
 
 ## Tests
 
 There are some tests, in order to run them, you can do:
 
-`python3 -m pytest`
+```sh
+# from the repo root, using the venv
+python -m pytest -q
+
+# or without activating the venv
+./.venv/bin/python -m pytest -q
+```
 
 ## Formatting
 
 This project is formatted using [black](https://pypi.org/project/black/) (a fairly standard Python formatter).To format files, use:
 
-`python3 -m black <filename>.py`
+```sh
+python3 -m black <filename>.py
+```
+
+## End-to-end VDR generation (online)
+
+The end-to-end flow requires network access to OpenJDK and NIST NVD. Outputs and caches are written under `data/`.
+
+```sh
+# ensure output/cache directory exists
+mkdir -p data
+
+# optional: use an API token for higher NVD rate limits
+export NIST_NVD_TOKEN="<your-nist-token>"
+
+# 1) scrape OJVG advisories and build intermediate JSON
+python ojvg_download.py   # writes data/openjvg_summary.json
+
+# 2) convert + enrich + validate and write the VDR
+python ojvg_convert.py    # writes data/vdr.json
+```
+
+Tip: In VS Code, pick the interpreter via “Python: Select Interpreter” and choose `.venv/bin/python` so testing and tools use the venv.
