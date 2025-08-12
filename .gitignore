@@ -3,3 +3,6 @@ lib/
 bin/
 share/
 pyvenv.cfg
+
+# VSCode local config
+.vscode/
