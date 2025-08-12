@@ -187,7 +187,7 @@ def dict_to_vulns(dicts: Optional[list[dict]]) -> list[Vulnerability]:
             # todo: we assume that the affected versions are an intersection between the dots on the grid
             # and the list of all affected versions. This may not necessarily be true, if there are multiple cves
             # one that affects one minor version and another that affects another, within the same major version
-            # todo: figure out the openjdk purl we should use - a purl version range string is expected, but not valdiated
+            # todo: figure out the openjdk purl we should use - a purl version range string is expected, but not validated
             # Generate a version range using the `vers:` format
             normalized_versions = [v.strip() for v in parsed_data["affected"]]
             normalized_versions.sort()
