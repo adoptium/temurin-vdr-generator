@@ -1,4 +1,4 @@
-beautifulsoup4==4.13.4
+beautifulsoup4==4.13.5
 cyclonedx-python-lib===10.4.1
 cyclonedx-python-lib[validation]==10.4.1
 requests==2.32.5
