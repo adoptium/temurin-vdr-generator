@@ -50,6 +50,7 @@ jobs:
             echo "last commit was just a vdr upload, don't do anything"
           else
             git add data/vdr.json
-            git commit -m "auto-commit-no-vdr Update VDR"
-            git push origin HEAD
+            git remote set-url origin https://x-access-token/:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git commit -am "auto-commit-no-vdr Update VDR"
+          git push
           fi
