@@ -41,3 +41,15 @@ jobs:
       with:
         name: final vdr
         path: data/vdr.json
+    - name: Add VDR to Git
+      run: |
+          git config --global user.name "adoptium-bot"
+          git config --global user.email "adoptium-bot@eclipse.org"
+          last_commit_message=$(git log -1 --pretty=%B)
+          if [[ "$last_commit_message" == *"auto-commit-no-vdr"* ]]; then
+            echo "last commit was just a vdr upload, don't do anything"
+          else
+            git add data/vdr.json
+            git commit -m "auto-commit-no-vdr Update VDR"
+            git push origin HEAD
+          fi
