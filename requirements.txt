@@ -1,6 +1,6 @@
 beautifulsoup4==4.14.2
 cyclonedx-python-lib===11.5.0
-cyclonedx-python-lib[validation]==11.4.0
+cyclonedx-python-lib[validation]==11.5.0
 requests==2.32.5
 mypy==1.18.2
 types-requests==2.32.4.20250913
