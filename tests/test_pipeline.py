@@ -58,9 +58,12 @@ def test_nist_enhance_null_score():
     with patch.object(nist_enhance, "fetch_nist", return_value=nist_data):
         nist_enhance.enhance([vuln])  # must not raise decimal.InvalidOperation
 
-    # The rating should have been added with score=None
+    # The rating should have been added with score=None but other fields intact
     assert len(list(vuln.ratings)) == 1
-    assert list(vuln.ratings)[0].score is None
+    rating = list(vuln.ratings)[0]
+    assert rating.score is None
+    assert str(rating.source.url) == "secalert_us@oracle.com"
+    assert rating.vector == "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
 
 def test_fetch_advisory_dates(): 
     with open("tests/data/open_jvg_dates.html", "r") as data:
