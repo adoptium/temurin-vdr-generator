@@ -1,4 +1,6 @@
 from cvereporter import fetch_vulnerabilities, nist_enhance, fetch_dates
+from unittest.mock import patch
+from cyclonedx.model.vulnerability import Vulnerability
 import json
 
 
@@ -46,6 +48,19 @@ def test_nist_parse():
         assert rtg["severity"] == "MEDIUM"
         assert rtg["vector"] == "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
         assert len(relevant_parts["versions"]) == 4
+
+def test_nist_enhance_null_score():
+    """Test that enhance handles a null baseScore from NIST without crashing."""
+    with open("tests/data/nist_CVE-2023-21835.json", "r") as file_data:
+        nist_data = json.load(file_data)["data"]
+
+    vuln = Vulnerability(id="CVE-2023-21835")
+    with patch.object(nist_enhance, "fetch_nist", return_value=nist_data):
+        nist_enhance.enhance([vuln])  # must not raise decimal.InvalidOperation
+
+    # The rating should have been added with score=None
+    assert len(list(vuln.ratings)) == 1
+    assert list(vuln.ratings)[0].score is None
 
 def test_fetch_advisory_dates(): 
     with open("tests/data/open_jvg_dates.html", "r") as data:
