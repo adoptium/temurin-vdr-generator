@@ -120,15 +120,19 @@ def enhance(vulns: list[Vulnerability]):
         # print(json.dumps(relevant, indent=True))
         for rating in relevant["ratings"]:
 
-            score_float = float("nan")
+            score_decimal = None
             try:
                 score_float = float(rating["score"])
-            except ValueError:
-                print(str(rating["score"]) + " is not a float")
+                score_decimal = Decimal.from_float(score_float)
+                if score_decimal.is_nan():
+                    print("Score is NaN, treating as absent")
+                    score_decimal = None
+            except (ValueError, TypeError):
+                print(str(rating["score"]) + " is not a valid score float")
             # todo: convert the ratings into the cyclonedx enums?
             vr = VulnerabilityRating(
                 source=VulnerabilitySource(url=rating["source"]),
-                score=Decimal.from_float(score_float),
+                score=score_decimal,
                 vector=rating["vector"],
                 method=VulnerabilityScoreSource.CVSS_V3_1,
             )

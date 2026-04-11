@@ -1,4 +1,5 @@
 from cvereporter import fetch_vulnerabilities, nist_enhance, fetch_dates
+from unittest.mock import patch
 import json
 
 
@@ -46,6 +47,34 @@ def test_nist_parse():
         assert rtg["severity"] == "MEDIUM"
         assert rtg["vector"] == "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
         assert len(relevant_parts["versions"]) == 4
+
+def test_nist_enhance_null_score():
+    """enhance() must not crash when NIST returns null for baseScore (TypeError path)."""
+    with open("tests/data/nist_CVE-2023-21835.json", "r") as f:
+        fixture = json.load(f)
+
+    with patch.object(nist_enhance, "fetch_nist", return_value=fixture["data"]):
+        # Build a minimal vulnerability list using the existing OJVG fixture
+        with open("tests/data/open_jvg_dump_2023-01-17.html", "r") as data:
+            vulns = fetch_vulnerabilities.parse_to_cyclone(
+                data, "2023-01-17", "www.fakeurl.com"
+            )
+        # Only test with the first vulnerability (CVE-2023-21835)
+        target = [v for v in vulns if v.id == "CVE-2023-21835"]
+        assert len(target) == 1
+
+        # Should not raise decimal.InvalidOperation
+        nist_enhance.enhance(target)
+
+        # Find the NIST-sourced rating (source URL comes from the NIST fixture)
+        nist_ratings = [
+            r for r in target[0].ratings
+            if r.source and r.source.url == "secalert_us@oracle.com"
+        ]
+        assert len(nist_ratings) == 1
+        assert nist_ratings[0].score is None
+        assert nist_ratings[0].vector == "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+
 
 def test_fetch_advisory_dates(): 
     with open("tests/data/open_jvg_dates.html", "r") as data:
