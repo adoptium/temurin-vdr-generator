@@ -193,7 +193,7 @@ def parse_to_dict(
                     parsed_data["ojvg_score"] = float(score_text_numeric)
                 except ValueError:
                     print("unable to try a truncated score: " + score_text_numeric)
-                parsed_data["ojvg_score"] = float("nan")
+                    parsed_data["ojvg_score"] = float("nan")
             print(json.dumps(parsed_data))
             dicts.append(parsed_data)
 
