@@ -11,9 +11,6 @@ It downloads all the vulnerability reports as html files to the `data` directory
 
 responses = []
 
-ctx = decimal.getcontext()
-ctx.prec = 6
-
 url = "https://openjdk.org/groups/vulnerability/advisories/"
 response = requests.get(url)
 list_of_dates = fetch_dates.fetch_advisory_dates(response.text)
