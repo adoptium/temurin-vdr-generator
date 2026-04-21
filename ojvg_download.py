@@ -1,5 +1,4 @@
 from cvereporter import fetch_vulnerabilities, fetch_dates
-import decimal
 import json
 import time
 import requests

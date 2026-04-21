@@ -98,7 +98,9 @@ def intersect_major_versions_with_extracted_affected(
 def decimal_parse_hack(score_text: str) -> str:
     # noticed logs like 7.5NLNNUHNN is not a valid score float
     # assume the parser is grabbing some extra stuff, truncate accordingly
-    # annoyingly isNumeric 
+    # annoyingly isNumeric doesn't consider "7.5" numeric, so we'll just assume
+    # that the format of the number is "x.y" 
+    # because anecdotally that's how it seems to look in all ojvg reports
     index_of_dot = score_text.index(".") if "." in score_text else -1
     if "." in score_text and index_of_dot < len(score_text) -1:
         try:
@@ -113,7 +115,6 @@ def decimal_parse_hack(score_text: str) -> str:
             i+=1
         return score_text[0:i]
     return ""
-
 
 def parse_to_dict(
     resp_text: Optional[str], date: str, ojvg_url: Optional[str]
