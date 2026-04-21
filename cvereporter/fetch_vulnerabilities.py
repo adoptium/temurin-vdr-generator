@@ -95,6 +95,25 @@ def intersect_major_versions_with_extracted_affected(
             affected_versions.append(version)
     return affected_versions
 
+def decimal_parse_hack(score_text: str) -> Decimal:
+    # noticed logs like 7.5NLNNUHNN is not a valid score float
+    # assume the parser is grabbing some extra stuff, truncate accordingly
+    # annoyingly isNumeric 
+    index_of_dot = score_text.index(".") if "." in score_text else -1
+    if "." in score_text and index_of_dot < len(score_text) -1:
+        try:
+            float(score_text[0:index_of_dot+2])
+            return score_text[0:index_of_dot+2]
+        except:
+            pass
+    if score_text[0].isnumeric():
+        i=1 # already checked index 0
+        # for whatever reason period is non numeric so try to grab the "x.y"
+        while i<len(score_text) and score_text[0:i+1].isnumeric():
+            i+=1
+        return score_text[0:i]
+    return None
+
 
 def parse_to_dict(
     resp_text: Optional[str], date: str, ojvg_url: Optional[str]
@@ -168,18 +187,12 @@ def parse_to_dict(
                 parsed_data["ojvg_score"] = float(score_text)
             except ValueError:
                 print(score_text + " is not a valid score float")
-                # noticed logs like 7.5NLNNUHNN is not a valid score float
-                # assume the parser is grabbing some extra stuff, truncate accordingly
-                if score_text[0].isnumeric():
-                    i=1 # already checked index 0
-                    while i<len(score_text) and score_text[i].isnumeric():
-                        i+=1
-                    score_text_numeric = score_text[0:i]
-                    try:
-                        print("remedied score text with numeric truncation: " + str(score_text_numeric))
-                        parsed_data["ojvg_score"] = float(score_text_numeric)
-                    except ValueError:
-                        print("unable to try a truncated score: " + score_text_numeric)
+                score_text_numeric = decimal_parse_hack(score_text)
+                try:
+                    print("remedied score text with numeric truncation: " + str(score_text_numeric))
+                    parsed_data["ojvg_score"] = float(score_text_numeric)
+                except ValueError:
+                    print("unable to try a truncated score: " + score_text_numeric)
                 parsed_data["ojvg_score"] = float("nan")
             print(json.dumps(parsed_data))
             dicts.append(parsed_data)
