@@ -126,8 +126,6 @@ def enhance(vulns: list[Vulnerability]):
             except ValueError:
                 print(str(rating["score"]) + " is not a float")
             # todo: convert the ratings into the cyclonedx enums?
-            ctx = decimal.getcontext()
-            ctx.prec = 6
             vr = VulnerabilityRating(
                 source=VulnerabilitySource(url=rating["source"]),
                 score=decimal.Decimal(rating["score"]),
