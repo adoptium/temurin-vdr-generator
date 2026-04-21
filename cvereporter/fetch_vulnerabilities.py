@@ -176,10 +176,10 @@ def parse_to_dict(
                         i+=1
                     score_text_numeric = score_text[0:i]
                     try:
-                        print("remedied score text with numeric truncation: "+str(score_text_numeric))
+                        print("remedied score text with numeric truncation: " + str(score_text_numeric))
                         parsed_data["ojvg_score"] = float(score_text_numeric)
                     except ValueError:
-                        print("unable to try a truncated score: " score_text_numeric)
+                        print("unable to try a truncated score: " + score_text_numeric)
                 parsed_data["ojvg_score"] = float("nan")
             print(json.dumps(parsed_data))
             dicts.append(parsed_data)
