@@ -128,7 +128,7 @@ def enhance(vulns: list[Vulnerability]):
             # todo: convert the ratings into the cyclonedx enums?
             vr = VulnerabilityRating(
                 source=VulnerabilitySource(url=rating["source"]),
-                score=decimal.Decimal.from_float(score_float),
+                score=decimal.Decimal.from_float(rating["score"]),
                 vector=rating["vector"],
                 method=VulnerabilityScoreSource.CVSS_V3_1,
             )
