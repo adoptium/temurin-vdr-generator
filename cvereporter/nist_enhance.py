@@ -1,4 +1,4 @@
-from decimal import Decimal
+import decimal
 from typing import Any, Optional
 from cyclonedx.model.vulnerability import (
     Vulnerability,
@@ -126,9 +126,11 @@ def enhance(vulns: list[Vulnerability]):
             except ValueError:
                 print(str(rating["score"]) + " is not a float")
             # todo: convert the ratings into the cyclonedx enums?
+            context = decimal.getcontext()
+            context.prec = 8
             vr = VulnerabilityRating(
                 source=VulnerabilitySource(url=rating["source"]),
-                score=Decimal.from_float(score_float),
+                score=decimal.Decimal.from_float(score_float),
                 vector=rating["vector"],
                 method=VulnerabilityScoreSource.CVSS_V3_1,
             )
@@ -136,6 +138,7 @@ def enhance(vulns: list[Vulnerability]):
                 vuln.ratings.add(vr)
             except Exception as e:
                 print("error adding rating: " + str(vr) + " due to error:" + str(e))
+                print(e)
         vuln.description = relevant["description"]
         # for now - we use versions we extract when we download from OpenJDK Vulnerability group
         # this version extraction is tied to the Oracle JDKs which might not map directly to openjdk versions
