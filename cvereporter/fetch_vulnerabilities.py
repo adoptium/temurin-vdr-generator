@@ -168,7 +168,7 @@ def parse_to_dict(
                 parsed_data["ojvg_score"] = float(score_text)
             except ValueError:
                 print(score_text + " is not a valid score float")
-                 # noticed logs like 7.5NLNNUHNN is not a valid score float
+                # noticed logs like 7.5NLNNUHNN is not a valid score float
                 # assume the parser is grabbing some extra stuff, truncate accordingly
                 if score_text[0].isnumeric():
                     i=1 # already checked index 0
@@ -179,7 +179,7 @@ def parse_to_dict(
                         print("remedied score text with numeric truncation: "+str(score_text_numeric))
                         parsed_data["ojvg_score"] = float(score_text_numeric)
                     except ValueError:
-                        print("unable to try a truncated score")
+                        print("unable to try a truncated score: " score_text_numeric)
                 parsed_data["ojvg_score"] = float("nan")
             print(json.dumps(parsed_data))
             dicts.append(parsed_data)
