@@ -132,7 +132,10 @@ def enhance(vulns: list[Vulnerability]):
                 vector=rating["vector"],
                 method=VulnerabilityScoreSource.CVSS_V3_1,
             )
-            vuln.ratings.add(vr)
+            try:
+                vuln.ratings.add(vr)
+            except Error as e:
+                print("error adding rating: "+ str(vr) " due to error:" + str(e))
         vuln.description = relevant["description"]
         # for now - we use versions we extract when we download from OpenJDK Vulnerability group
         # this version extraction is tied to the Oracle JDKs which might not map directly to openjdk versions
