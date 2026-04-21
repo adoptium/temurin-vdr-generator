@@ -95,7 +95,7 @@ def intersect_major_versions_with_extracted_affected(
             affected_versions.append(version)
     return affected_versions
 
-def decimal_parse_hack(score_text: str) -> Decimal:
+def decimal_parse_hack(score_text: str) -> str:
     # noticed logs like 7.5NLNNUHNN is not a valid score float
     # assume the parser is grabbing some extra stuff, truncate accordingly
     # annoyingly isNumeric 
@@ -112,7 +112,7 @@ def decimal_parse_hack(score_text: str) -> Decimal:
         while i<len(score_text) and score_text[0:i+1].isnumeric():
             i+=1
         return score_text[0:i]
-    return None
+    return ""
 
 
 def parse_to_dict(
