@@ -1,4 +1,5 @@
 from cvereporter import fetch_vulnerabilities, fetch_dates
+import decimal
 import json
 import time
 import requests
@@ -9,6 +10,9 @@ It downloads all the vulnerability reports as html files to the `data` directory
 """
 
 responses = []
+
+ctx = decimal.getcontext()
+ctx.prec = 2
 
 url = "https://openjdk.org/groups/vulnerability/advisories/"
 response = requests.get(url)
