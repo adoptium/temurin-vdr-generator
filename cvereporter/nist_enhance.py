@@ -134,7 +134,7 @@ def enhance(vulns: list[Vulnerability]):
             )
             try:
                 vuln.ratings.add(vr)
-            except Error as e:
+            except Exception as e:
                 print("error adding rating: " + str(vr) + " due to error:" + str(e))
         vuln.description = relevant["description"]
         # for now - we use versions we extract when we download from OpenJDK Vulnerability group
