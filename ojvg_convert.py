@@ -24,6 +24,9 @@ with open("data/openjvg_summary.json", "r") as file:
     nist_enhance.enhance(vulns)
     print("nist enhanced {} vulnerabilities".format(len(vulns)))
     for vuln in vulns:
-        bom.vulnerabilities.add(vuln)
+        try:
+            bom.vulnerabilities.add(vuln)
+        except Exception as e:
+            print("failed to add vuln to bom " + str(vuln) + " due to error " + str(e))
     with open("data/vdr.json", "w") as vdr:
         vdr.write(report.serialize_to_json(bom))
