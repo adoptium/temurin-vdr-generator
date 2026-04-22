@@ -47,7 +47,6 @@ python3 -m black <filename>.py
 
 The end-to-end flow requires network access to OpenJDK and NIST NVD. Outputs and caches are written under `data/`.
 
-
 ```sh
 # ensure output/cache directory exists
 mkdir -p data
