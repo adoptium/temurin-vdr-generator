@@ -1,4 +1,5 @@
 import decimal
+import logging
 from typing import Any, Optional
 from cyclonedx.model.vulnerability import (
     Vulnerability,
@@ -17,33 +18,36 @@ import os
 this file has the utilities for downloading data about cves from NIST and updating Vulnerability objects with the data
 """
 
+logger = logging.getLogger(__name__)
+
 
 def fetch_nist(url: str, id: str) -> Optional[dict]:
     file_location = "data/nist_" + id + ".json"
     try:
         with open(file_location, "r") as the_file:
             data = json.load(the_file)["data"]
-            print("resolved from cache " + url)
+            logger.debug("resolved from cache %s", url)
             return data
     except:
-        print("unable to find pre-fetched nist response, actually performing fetch.")
+        logger.debug("unable to find pre-fetched nist response, actually performing fetch.")
     data = None
     nist_resp = None
     if (
         "NIST_NVD_TOKEN" in os.environ and os.environ["NIST_NVD_TOKEN"]
     ):  # check not empty
-        print("making call to NIST using api key! " + url, flush=True)
+        logger.info("making call to NIST using api key: %s", url)
         time.sleep(1)  # stay well within 50 requests/30 seconds
         nist_resp = requests.get(url, headers={"apiKey": os.environ["NIST_NVD_TOKEN"]})
     else:
-        print("making call to NIST without using api key! " + url, flush=True)
+        logger.info("making call to NIST without api key: %s", url)
         time.sleep(10)  # stay well within 5 requests/30 seconds
         nist_resp = requests.get(url)
     if nist_resp.status_code != 200:
-        print(
-            "error fetching {}; status code: {}; text: {}".format(
-                id, nist_resp.status_code, nist_resp.text
-            )
+        logger.error(
+            "error fetching %s; status code: %s; text: %s",
+            id,
+            nist_resp.status_code,
+            nist_resp.text,
         )
         """
             the most frequently seen error response is:
@@ -116,7 +120,7 @@ def enhance(vulns: list[Vulnerability]):
             relevant = extract_relevant_parts(nist_resp)
         except KeyError:
             continue
-        print("\n\n\n\n\n\nvuln: {} index {} ".format(id, count))
+        logger.debug("enhancing vuln: %s (index %s)", id, count)
         # print(json.dumps(relevant, indent=True))
         for rating in relevant["ratings"]:
 
@@ -124,7 +128,7 @@ def enhance(vulns: list[Vulnerability]):
             try:
                 score_float = float(rating["score"])
             except ValueError:
-                print(str(rating["score"]) + " is not a float")
+                logger.warning("%s is not a float", str(rating["score"]))
             # todo: convert the ratings into the cyclonedx enums?
             vr = VulnerabilityRating(
                 source=VulnerabilitySource(url=rating["source"]),
@@ -135,8 +139,7 @@ def enhance(vulns: list[Vulnerability]):
             try:
                 vuln.ratings.add(vr)
             except Exception as e:
-                print("error adding rating: " + str(vr) + " due to error:" + str(e))
-                print(e)
+                logger.error("error adding rating: %s due to error: %s", vr, e)
         vuln.description = relevant["description"]
         # for now - we use versions we extract when we download from OpenJDK Vulnerability group
         # this version extraction is tied to the Oracle JDKs which might not map directly to openjdk versions
