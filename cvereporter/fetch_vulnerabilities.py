@@ -165,7 +165,11 @@ def parse_to_dict(
             id = cve.text
             if cve.text == "None":
                 continue
-            link = cve.find("a")["href"]
+            try:
+                link = cve.find("a")["href"]
+            except TypeError as e:
+                print("type error - making up link for " + cve.text)
+                link = "https://nvd.nist.gov/vuln/detail/" + cve.text
             componentsTD = cve.find_next_sibling("td")
             component = componentsTD.text.replace("\n", "")
             score_td = componentsTD.find_next_sibling()

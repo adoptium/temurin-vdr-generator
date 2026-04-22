@@ -21,6 +21,18 @@ def test_fetch():
         assert len(list(vulns[1].affects)[0].versions) == 1
         assert list(vulns[1].affects)[0].versions[0].range == "vers:generic/7u361|8u352"
 
+def test_fetch_no_href():
+    with open("tests/data/open_jvg_dump_2026-04-21.html", "r") as data:
+        vulns = fetch_vulnerabilities.parse_to_cyclone(
+            data, "2026-04-21", "www.fakeurl.com"
+        )
+
+        print(vulns)
+        assert len(vulns) == 9
+        # todo: do some better assertions on the actual vulnerability contents here
+        assert vulns[0].id == "CVE-2026-22016"
+        assert list(vulns[0].affects)[0].ref == "pkg:github/openjdk/jdk"
+
 
 
 def test_parse_to_dict():
@@ -32,7 +44,22 @@ def test_parse_to_dict():
         for cve in vulns:
             if cve["id"] == "CVE-2023-21830":
                 assert len(cve["affected"]) == 2
-            assert cve["ojvg_url"] == "www.fakeurl.com"
+                print(cve)
+                assert cve["ojvg_url"] == "www.fakeurl.com"
+                assert cve["ojvg_score"] == 5.3
+
+def test_parse_to_dict_2026():
+    with open("tests/data/open_jvg_dump_2026-04-21.html", "r") as data:
+        vulns = fetch_vulnerabilities.parse_to_dict(
+            data, "2026-04-21", "www.fakeurl.com"
+        )
+        print(vulns)
+        for cve in vulns:
+            if cve["id"] == "CVE-2026-22016":
+                assert len(cve["affected"]) == 6
+                print(cve)
+                assert cve["ojvg_url"] == "www.fakeurl.com"
+                assert cve["ojvg_score"] == 7.5          
 
 
 def test_nist_parse():
