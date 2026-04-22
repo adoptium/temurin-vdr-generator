@@ -98,6 +98,26 @@ def intersect_major_versions_with_extracted_affected(
             affected_versions.append(version)
     return affected_versions
 
+def decimal_parse_hack(score_text: str) -> str:
+    # noticed logs like 7.5NLNNUHNN is not a valid score float
+    # assume the parser is grabbing some extra stuff, truncate accordingly
+    # annoyingly isNumeric doesn't consider "7.5" numeric, so we'll just assume
+    # that the format of the number is "x.y" 
+    # because anecdotally that's how it seems to look in all ojvg reports
+    index_of_dot = score_text.index(".") if "." in score_text else -1
+    if "." in score_text and index_of_dot < len(score_text) -1:
+        try:
+            float(score_text[0:index_of_dot+2])
+            return score_text[0:index_of_dot+2]
+        except:
+            pass
+    if score_text[0].isnumeric():
+        i=1 # already checked index 0
+        # for whatever reason period is non numeric so try to grab the "x.y"
+        while i<len(score_text) and score_text[0:i+1].isnumeric():
+            i+=1
+        return score_text[0:i]
+    return ""
 
 def parse_to_dict(
     resp_text: Optional[str], date: str, ojvg_url: Optional[str]
@@ -148,7 +168,11 @@ def parse_to_dict(
             id = cve.text
             if cve.text == "None":
                 continue
-            link = cve.find("a")["href"]
+            try:
+                link = cve.find("a")["href"]
+            except TypeError as e:
+                logger.warning("type error - making up link for %s", cve.text)
+                link = "https://nvd.nist.gov/vuln/detail/" + cve.text
             componentsTD = cve.find_next_sibling("td")
             component = componentsTD.text.replace("\n", "")
             score_td = componentsTD.find_next_sibling()
@@ -171,7 +195,13 @@ def parse_to_dict(
                 parsed_data["ojvg_score"] = float(score_text)
             except ValueError:
                 logger.warning("%s is not a valid score float", score_text)
-                parsed_data["ojvg_score"] = float("nan")
+                score_text_numeric = decimal_parse_hack(score_text)
+                try:
+                    logger.debug("remedied score text with numeric truncation: %s", score_text_numeric)
+                    parsed_data["ojvg_score"] = float(score_text_numeric)
+                except ValueError:
+                    logger.warning("unable to try a truncated score: %s", score_text_numeric)
+                    parsed_data["ojvg_score"] = float("nan")
             logger.debug("parsed CVE data: %s", json.dumps(parsed_data))
             dicts.append(parsed_data)
 
