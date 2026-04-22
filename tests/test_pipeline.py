@@ -63,3 +63,7 @@ def test_fetch_advisory_dates():
             assert(1 <= int(m) <= 12)
             assert(1 <= int(d) <= 31) 
 
+def test_decimal_parse_hack():
+    assert(fetch_vulnerabilities.decimal_parse_hack("7.5NOTANUMBER")=="7.5")
+    assert(fetch_vulnerabilities.decimal_parse_hack("7BLAHBLAHBLAH")=="7")
+
