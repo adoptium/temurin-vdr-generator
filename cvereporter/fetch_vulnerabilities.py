@@ -2,9 +2,12 @@
 
 from decimal import Decimal
 import json
+import logging
 import requests
 from bs4 import BeautifulSoup, Tag
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
 from cyclonedx.model.vulnerability import (
     Vulnerability,
     VulnerabilityScoreSource,
@@ -33,7 +36,7 @@ def fetch_dicts(date: str):
 def retrieve_cves_from_internet(date: str) -> tuple[Optional[str], Optional[str]]:
     # fetch the CVEs for the given date
     url = "https://openjdk.org/groups/vulnerability/advisories/" + date
-    print(url)
+    logger.info("fetching %s", url)
     try:
         r = requests.get(
             url,
@@ -112,7 +115,7 @@ def parse_to_dict(
     # find the table with the CVEs
     table = soup.find("table", attrs={"class": "risk-matrix"})
     if table is None:
-        print("unable to find risk matrix for " + date)
+        logger.warning("unable to find risk matrix for %s", date)
         return None
     # find all the rows in the table
     rows = table.find_all("tr") if isinstance(table, Tag) else []
@@ -132,7 +135,7 @@ def parse_to_dict(
                     score = score.find_next_sibling("th")
             # extract table column headers
             populate_column_headers(column_headers, header)
-            print(column_headers)
+            logger.debug("column headers: %s", column_headers)
 
         cve = row.find("td")
         affected_major_versions = []
@@ -167,9 +170,9 @@ def parse_to_dict(
             try:
                 parsed_data["ojvg_score"] = float(score_text)
             except ValueError:
-                print(score_text + " is not a valid score float")
+                logger.warning("%s is not a valid score float", score_text)
                 parsed_data["ojvg_score"] = float("nan")
-            print(json.dumps(parsed_data))
+            logger.debug("parsed CVE data: %s", json.dumps(parsed_data))
             dicts.append(parsed_data)
 
     return dicts

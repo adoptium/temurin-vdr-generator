@@ -1,9 +1,16 @@
 import json
+import logging
 from cvereporter import fetch_vulnerabilities, report, nist_enhance
 
 """
 This file will take a downloaded version of all the CVEs from OJVG which are retrieved by ojvg_download.py and enhance with NIST data, resulting in the creation of the VDR.
 """
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 
 def flatten_file(file) -> list[dict]:
@@ -17,12 +24,10 @@ def flatten_file(file) -> list[dict]:
 
 with open("data/openjvg_summary.json", "r") as file:
     vulns = fetch_vulnerabilities.dict_to_vulns(flatten_file(file))
-    print(
-        "parsed and converted {} vulnerabilities from openjvg file".format(len(vulns))
-    )
+    logger.info("parsed and converted %d vulnerabilities from openjvg file", len(vulns))
     bom = report.get_base_bom()
     nist_enhance.enhance(vulns)
-    print("nist enhanced {} vulnerabilities".format(len(vulns)))
+    logger.info("nist enhanced %d vulnerabilities", len(vulns))
     for vuln in vulns:
         bom.vulnerabilities.add(vuln)
     with open("data/vdr.json", "w") as vdr:
