@@ -6,8 +6,6 @@ import logging
 import requests
 from bs4 import BeautifulSoup, Tag
 from datetime import datetime
-
-logger = logging.getLogger(__name__)
 from cyclonedx.model.vulnerability import (
     Vulnerability,
     VulnerabilityScoreSource,
@@ -21,6 +19,8 @@ from typing import Optional
 """
 Utilities to fetch data from OJVG and convert it to intermediate representations/CycloneDX structure
 """
+
+logger = logging.getLogger(__name__)
 
 
 def fetch_cves(date: str) -> list[Vulnerability]:
