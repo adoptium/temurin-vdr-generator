@@ -2,6 +2,7 @@
 
 from decimal import Decimal
 import json
+import logging
 import requests
 from bs4 import BeautifulSoup, Tag
 from datetime import datetime
@@ -19,6 +20,8 @@ from typing import Optional
 Utilities to fetch data from OJVG and convert it to intermediate representations/CycloneDX structure
 """
 
+logger = logging.getLogger(__name__)
+
 
 def fetch_cves(date: str) -> list[Vulnerability]:
     return dict_to_vulns(fetch_dicts(date))
@@ -33,7 +36,7 @@ def fetch_dicts(date: str):
 def retrieve_cves_from_internet(date: str) -> tuple[Optional[str], Optional[str]]:
     # fetch the CVEs for the given date
     url = "https://openjdk.org/groups/vulnerability/advisories/" + date
-    print(url)
+    logger.info("fetching %s", url)
     try:
         r = requests.get(
             url,
@@ -132,7 +135,7 @@ def parse_to_dict(
     # find the table with the CVEs
     table = soup.find("table", attrs={"class": "risk-matrix"})
     if table is None:
-        print("unable to find risk matrix for " + date)
+        logger.warning("unable to find risk matrix for %s", date)
         return None
     # find all the rows in the table
     rows = table.find_all("tr") if isinstance(table, Tag) else []
@@ -152,7 +155,7 @@ def parse_to_dict(
                     score = score.find_next_sibling("th")
             # extract table column headers
             populate_column_headers(column_headers, header)
-            print(column_headers)
+            logger.debug("column headers: %s", column_headers)
 
         cve = row.find("td")
         affected_major_versions = []
@@ -168,7 +171,7 @@ def parse_to_dict(
             try:
                 link = cve.find("a")["href"]
             except TypeError as e:
-                print("type error - making up link for " + cve.text)
+                logger.warning("type error - making up link for %s", cve.text)
                 link = "https://nvd.nist.gov/vuln/detail/" + cve.text
             componentsTD = cve.find_next_sibling("td")
             component = componentsTD.text.replace("\n", "")
@@ -191,15 +194,15 @@ def parse_to_dict(
             try:
                 parsed_data["ojvg_score"] = float(score_text)
             except ValueError:
-                print(score_text + " is not a valid score float")
+                logger.warning("%s is not a valid score float", score_text)
                 score_text_numeric = decimal_parse_hack(score_text)
                 try:
-                    print("remedied score text with numeric truncation: " + str(score_text_numeric))
+                    logger.debug("remedied score text with numeric truncation: %s", score_text_numeric)
                     parsed_data["ojvg_score"] = float(score_text_numeric)
                 except ValueError:
-                    print("unable to try a truncated score: " + score_text_numeric)
+                    logger.warning("unable to try a truncated score: %s", score_text_numeric)
                     parsed_data["ojvg_score"] = float("nan")
-            print(json.dumps(parsed_data))
+            logger.debug("parsed CVE data: %s", json.dumps(parsed_data))
             dicts.append(parsed_data)
 
     return dicts
