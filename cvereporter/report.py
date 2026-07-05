@@ -1,3 +1,4 @@
+import logging
 from cyclonedx.factory.license import LicenseFactory
 from cyclonedx.model import XsUri, ExternalReferenceType
 from cyclonedx.model.bom import Bom, OrganizationalEntity
@@ -21,6 +22,8 @@ from datetime import datetime
 """
 utilities to create the CycloneDX BOM objects and serialize it to JSON
 """
+
+logger = logging.getLogger(__name__)
 
 
 def get_base_bom() -> Bom:
@@ -48,8 +51,7 @@ def get_base_bom() -> Bom:
 def serialize_to_json(bom: Bom) -> str:
     my_json_outputter = JsonV1Dot4(bom)
     serialized_json = my_json_outputter.output_as_string(indent=2)
-    print("\n\n\n")
-    print(serialized_json)
+    logger.debug("serialized BOM:\n%s", serialized_json)
     validate_bom(serialized_json)
     return serialized_json
 
@@ -60,11 +62,11 @@ def validate_bom(bom_str: str):
     try:
         validation_errors = my_json_validator.validate_str(bom_str)
         if validation_errors:
-            print("JSON invalid", "ValidationError:", repr(validation_errors), sep="\n")
+            logger.error("JSON invalid\nValidationError: %r", validation_errors)
         else:
-            print("JSON valid")
+            logger.info("JSON valid")
     except MissingOptionalDependencyException as error:
-        print("JSON-validation was skipped due to", error)
+        logger.warning("JSON-validation was skipped due to %s", error)
 
 
 def sbom_creation_test():
@@ -111,5 +113,4 @@ def sbom_creation_test():
 
     my_json_outputter = JsonV1Dot4(bom)
     serialized_json = my_json_outputter.output_as_string(indent=2)
-    print("\n\n\n")
-    print(serialized_json)
+    logger.debug("serialized BOM:\n%s", serialized_json)
