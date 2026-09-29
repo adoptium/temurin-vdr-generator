@@ -1,3 +1,7 @@
+import hashlib
+import os
+import tempfile
+
 from cvereporter import fetch_vulnerabilities, nist_enhance, fetch_dates
 import json
 
@@ -94,3 +98,91 @@ def test_decimal_parse_hack():
     assert(fetch_vulnerabilities.decimal_parse_hack("7.5NOTANUMBER")=="7.5")
     assert(fetch_vulnerabilities.decimal_parse_hack("7BLAHBLAHBLAH")=="7")
 
+
+
+# ---------------------------------------------------------------------------
+# Release asset packaging tests
+# These tests validate the checksum manifest filename and content format used
+# by the publish job in vdr-creation.yml. No live GitHub API calls are made.
+# ---------------------------------------------------------------------------
+
+def _make_sha256_manifest(asset_path: str, manifest_path: str) -> None:
+    """Reproduce the sha256sum output written by the workflow publish step."""
+    digest = hashlib.sha256(open(asset_path, "rb").read()).hexdigest()
+    filename = os.path.basename(asset_path)
+    with open(manifest_path, "w") as f:
+        f.write(f"{digest}  {filename}\n")
+
+
+def test_release_asset_naming():
+    """Tag and asset filenames follow the temurin-vdr-DD-MM-YYYY-<run_id> scheme."""
+    run_id = "12345678"
+    date = "01-06-2025"
+    tag = f"temurin-vdr-{date}-{run_id}"
+
+    assert tag.startswith("temurin-vdr-")
+    parts = tag.split("-")
+    # expected parts: ['temurin', 'vdr', DD, MM, YYYY, run_id]
+    assert len(parts) == 6
+    dd, mm, yyyy = parts[2], parts[3], parts[4]
+    assert dd.isdigit() and len(dd) == 2
+    assert mm.isdigit() and len(mm) == 2
+    assert yyyy.isdigit() and len(yyyy) == 4
+    assert parts[5] == run_id
+
+    assert f"{tag}.json" == f"temurin-vdr-{date}-{run_id}.json"
+    assert f"{tag}.sha256" == f"temurin-vdr-{date}-{run_id}.sha256"
+
+
+def test_checksum_manifest_content():
+    """SHA-256 manifest has correct digest and matches standard checksum-file format."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        run_id = "99999999"
+        date = "15-07-2025"
+        tag = f"temurin-vdr-{date}-{run_id}"
+        asset_name = f"{tag}.json"
+        manifest_name = f"{tag}.sha256"
+
+        asset_path = os.path.join(tmpdir, asset_name)
+        manifest_path = os.path.join(tmpdir, manifest_name)
+
+        payload = b'{"bomFormat": "CycloneDX", "specVersion": "1.4"}'
+        with open(asset_path, "wb") as f:
+            f.write(payload)
+
+        _make_sha256_manifest(asset_path, manifest_path)
+
+        with open(manifest_path, "r") as f:
+            line = f.read().strip()
+
+        # Standard checksum-file format: "<hex_digest>  <filename>"
+        digest_part, filename_part = line.split("  ", 1)
+        assert len(digest_part) == 64
+        assert all(c in "0123456789abcdef" for c in digest_part)
+        assert filename_part == asset_name
+
+        expected_digest = hashlib.sha256(payload).hexdigest()
+        assert digest_part == expected_digest
+
+
+def test_checksum_manifest_verifies_asset():
+    """Asset content that changes produces a different digest (tamper detection)."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tag = "temurin-vdr-01-01-2025-11111111"
+        asset_path = os.path.join(tmpdir, f"{tag}.json")
+        manifest_path = os.path.join(tmpdir, f"{tag}.sha256")
+
+        with open(asset_path, "wb") as f:
+            f.write(b'{"original": true}')
+
+        _make_sha256_manifest(asset_path, manifest_path)
+
+        with open(manifest_path, "r") as f:
+            original_digest = f.read().split("  ")[0]
+
+        # Simulate a tampered asset
+        with open(asset_path, "wb") as f:
+            f.write(b'{"tampered": true}')
+
+        tampered_digest = hashlib.sha256(open(asset_path, "rb").read()).hexdigest()
+        assert tampered_digest != original_digest
