@@ -61,4 +61,60 @@ python ojvg_download.py   # writes data/openjvg_summary.json
 python ojvg_convert.py    # writes data/vdr.json
 ```
 
-Tip: In VS Code, pick the interpreter via “Python: Select Interpreter” and choose `.venv/bin/python` so testing and tools use the venv.
+Tip: In VS Code, pick the interpreter via "Python: Select Interpreter" and choose `.venv/bin/python` so testing and tools use the venv.
+
+## Releases
+
+### Publication behaviour
+
+Successful VDR builds triggered by a push to `main` or a manual `workflow_dispatch` are published as an immutable GitHub Release. Pull-request runs validate the pipeline and upload temporary workflow artifacts, but never create or modify a release.
+
+### Naming scheme
+
+Each release uses a unique tag derived from the UTC date of the workflow run and the immutable GitHub Actions run identifier:
+
+```
+temurin-vdr-DD-MM-YYYY-<github.run_id>
+```
+
+Example: `temurin-vdr-15-06-2025-12345678901`
+
+The release title is the full tag name. Release notes record the source commit SHA and a direct link to the workflow run.
+
+### Release assets
+
+Each release ships two files:
+
+| Asset | Description |
+|---|---|
+| `temurin-vdr-DD-MM-YYYY-<run_id>.json` | The generated CycloneDX VDR document |
+| `temurin-vdr-DD-MM-YYYY-<run_id>.sha256` | SHA-256 checksum manifest in standard `sha256sum` format |
+
+### Verifying an asset
+
+```sh
+# download both files for a given release, then:
+sha256sum --check temurin-vdr-DD-MM-YYYY-<run_id>.sha256
+```
+
+### Stable latest-release URL
+
+```
+https://github.com/adoptium/temurin-vdr-generator/releases/latest
+```
+
+This URL always redirects to the most recently published release. Generic consumers can resolve it once to discover the current immutable tag and asset URLs.
+
+### Immutability
+
+Repository or organisation release immutability **must be enabled before the first production release is published**; the setting applies only to future releases. When enabled, GitHub locks the associated Git tag to its commit, prevents the tag from being moved or deleted while the release exists, and prevents release assets from being modified or deleted. Release titles and notes remain editable, but the workflow never edits them after publication.
+
+Tags and releases are never reused, updated, or deleted by the workflow. If an immutable release is deleted manually, its tag cannot be reused.
+
+### Required permissions
+
+The publish job uses the built-in `GITHUB_TOKEN` with `contents: write` permission, scoped to the publish job only. All other jobs default to `contents: read`. No additional secrets or credentials are required unless organisational policy restricts `GITHUB_TOKEN` from creating releases; in that case a maintainer-configured fine-grained PAT or GitHub App token should be stored as a repository secret and referenced as `${{ secrets.RELEASE_TOKEN }}`.
+
+### Future SBOM integration
+
+The exact immutable tag and VDR asset SHA-256 produced by each release will be consumed by `temurin-build` during JDK SBOM generation. That integration is implemented as a separate change in the `adoptium/temurin-build` repository.
