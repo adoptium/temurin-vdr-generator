@@ -39,10 +39,10 @@ python -m pytest -q
 
 This project is formatted using [black](https://pypi.org/project/black/) (a fairly standard Python formatter) with its
 default settings. All Python files are expected to be black-formatted; please format any files you change before
-opening a pull request:
+opening a pull request (CI fails if they are not):
 
 ```sh
-python3 -m pip install black
+python3 -m pip install black==26.10.0   # the version CI checks with
 python3 -m black <filename>.py   # or `python3 -m black .` for the whole project
 python3 -m black --check .       # verify formatting without changing files
 ```
