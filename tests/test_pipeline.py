@@ -63,7 +63,18 @@ def test_parse_to_dict_2026():
                 assert len(cve["affected"]) == 6
                 print(cve)
                 assert cve["ojvg_url"] == "www.fakeurl.com"
-                assert cve["ojvg_score"] == 7.5          
+                assert cve["ojvg_score"] == 7.5
+
+
+def test_parse_to_dict_score_with_vector(caplog):
+    # the score cell holds the score and the cvss vector on two lines, e.g. "7.5<br />NLNNUHNN"
+    with open("tests/data/open_jvg_dump_2026-04-21.html", "r") as data:
+        vulns = fetch_vulnerabilities.parse_to_dict(
+            data, "2026-04-21", "www.fakeurl.com"
+        )
+    scores = [cve["ojvg_score"] for cve in vulns]
+    assert scores == [7.5, 7.5, 5.3, 5.3, 5.3, 3.7, 3.7, 2.9, 2.9]
+    assert "is not a valid score float" not in caplog.text          
 
 
 def test_nist_parse():
