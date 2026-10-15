@@ -37,10 +37,14 @@ python -m pytest -q
 
 ## Formatting
 
-This project is formatted using [black](https://pypi.org/project/black/) (a fairly standard Python formatter).To format files, use:
+This project is formatted using [black](https://pypi.org/project/black/) (a fairly standard Python formatter) with its
+default settings. All Python files are expected to be black-formatted; please format any files you change before
+opening a pull request:
 
 ```sh
-python3 -m black <filename>.py
+python3 -m pip install black
+python3 -m black <filename>.py   # or `python3 -m black .` for the whole project
+python3 -m black --check .       # verify formatting without changing files
 ```
 
 ## End-to-end VDR generation (online)

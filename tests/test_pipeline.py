@@ -25,6 +25,7 @@ def test_fetch():
         assert len(list(vulns[1].affects)[0].versions) == 1
         assert list(vulns[1].affects)[0].versions[0].range == "vers:generic/7u361|8u352"
 
+
 def test_fetch_no_href():
     with open("tests/data/open_jvg_dump_2026-04-21.html", "r") as data:
         vulns = fetch_vulnerabilities.parse_to_cyclone(
@@ -36,7 +37,6 @@ def test_fetch_no_href():
         # todo: do some better assertions on the actual vulnerability contents here
         assert vulns[0].id == "CVE-2026-22016"
         assert list(vulns[0].affects)[0].ref == "pkg:github/openjdk/jdk"
-
 
 
 def test_parse_to_dict():
@@ -51,6 +51,7 @@ def test_parse_to_dict():
                 print(cve)
                 assert cve["ojvg_url"] == "www.fakeurl.com"
                 assert cve["ojvg_score"] == 5.3
+
 
 def test_parse_to_dict_2026():
     with open("tests/data/open_jvg_dump_2026-04-21.html", "r") as data:
@@ -74,7 +75,7 @@ def test_parse_to_dict_score_with_vector(caplog):
         )
     scores = [cve["ojvg_score"] for cve in vulns]
     assert scores == [7.5, 7.5, 5.3, 5.3, 5.3, 3.7, 3.7, 2.9, 2.9]
-    assert "is not a valid score float" not in caplog.text          
+    assert "is not a valid score float" not in caplog.text
 
 
 def test_nist_parse():
@@ -89,26 +90,27 @@ def test_nist_parse():
         assert rtg["vector"] == "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
         assert len(relevant_parts["versions"]) == 4
 
-def test_fetch_advisory_dates(): 
+
+def test_fetch_advisory_dates():
     with open("tests/data/open_jvg_dates.html", "r") as data:
         html = data.read()
-        dates = fetch_dates.fetch_advisory_dates(html)  
+        dates = fetch_dates.fetch_advisory_dates(html)
         assert len(dates) > 0
-        
+
         # Check dates are in the expected format (YYYY-MM-DD)
         assert all(len(date.split("-")) == 3 for date in dates)
-        
+
         for date in dates:
             y, m, d = date.split("-")
-            assert(y.isdigit() and m.isdigit() and d.isdigit())
-            assert(len(y) == 4 and len(m) == 2 and len(d) == 2)
-            assert(1 <= int(m) <= 12)
-            assert(1 <= int(d) <= 31) 
+            assert y.isdigit() and m.isdigit() and d.isdigit()
+            assert len(y) == 4 and len(m) == 2 and len(d) == 2
+            assert 1 <= int(m) <= 12
+            assert 1 <= int(d) <= 31
+
 
 def test_decimal_parse_hack():
-    assert(fetch_vulnerabilities.decimal_parse_hack("7.5NOTANUMBER")=="7.5")
-    assert(fetch_vulnerabilities.decimal_parse_hack("7BLAHBLAHBLAH")=="7")
-
+    assert fetch_vulnerabilities.decimal_parse_hack("7.5NOTANUMBER") == "7.5"
+    assert fetch_vulnerabilities.decimal_parse_hack("7BLAHBLAHBLAH") == "7"
 
 
 # ---------------------------------------------------------------------------
@@ -116,6 +118,7 @@ def test_decimal_parse_hack():
 # These tests validate the checksum manifest filename and content format used
 # by the publish job in vdr-creation.yml. No live GitHub API calls are made.
 # ---------------------------------------------------------------------------
+
 
 def _make_sha256_manifest(asset_path: str, manifest_path: str) -> None:
     """Reproduce the sha256sum output written by the workflow publish step."""
@@ -203,8 +206,12 @@ def test_cve_project_url():
     assert cve_project.cve_project_url("CVE-2026-22016") == (
         "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/22xxx/CVE-2026-22016.json"
     )
-    assert cve_project.cve_project_url("CVE-2014-0001").endswith("/cves/2014/0xxx/CVE-2014-0001.json")
-    assert cve_project.cve_project_url("CVE-2024-123456").endswith("/cves/2024/123xxx/CVE-2024-123456.json")
+    assert cve_project.cve_project_url("CVE-2014-0001").endswith(
+        "/cves/2014/0xxx/CVE-2014-0001.json"
+    )
+    assert cve_project.cve_project_url("CVE-2024-123456").endswith(
+        "/cves/2024/123xxx/CVE-2024-123456.json"
+    )
 
 
 def test_cve_project_parse():
@@ -217,7 +224,9 @@ def test_cve_project_parse():
         assert rtg["score"] == 5.3
         assert rtg["severity"] == "MEDIUM"
         assert rtg["vector"] == "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
-        assert relevant_parts["description"].startswith("Vulnerability in the Oracle Java SE")
+        assert relevant_parts["description"].startswith(
+            "Vulnerability in the Oracle Java SE"
+        )
         assert relevant_parts["versions"] == ["8u351", "8u351-perf"]
 
 
@@ -285,37 +294,69 @@ def test_enhance_summary(monkeypatch):
     from cyclonedx.model.vulnerability import Vulnerability
 
     results = {
-        "CVE-2023-0001": {"ratings": [], "description": "d", "versions": [], "data_source": "cve_project"},
-        "CVE-2023-0002": {"ratings": [], "description": "d", "versions": [], "data_source": "nvd"},
+        "CVE-2023-0001": {
+            "ratings": [],
+            "description": "d",
+            "versions": [],
+            "data_source": "cve_project",
+        },
+        "CVE-2023-0002": {
+            "ratings": [],
+            "description": "d",
+            "versions": [],
+            "data_source": "nvd",
+        },
         "CVE-2023-0003": None,
     }
     monkeypatch.setattr(nist_enhance, "get_relevant", lambda id, mode: results[id])
     vulns = [Vulnerability(id=id) for id in results]
-    summary = nist_enhance.enhance(vulns, nist_enhance.DataSourceMode.CVE_PROJECT_THEN_NVD)
-    assert summary == {"description only (cve_project)": 1, "description only (nvd)": 1, "not found": 1}
+    summary = nist_enhance.enhance(
+        vulns, nist_enhance.DataSourceMode.CVE_PROJECT_THEN_NVD
+    )
+    assert summary == {
+        "description only (cve_project)": 1,
+        "description only (nvd)": 1,
+        "not found": 1,
+    }
 
 
 def test_get_relevant_records_data_source(monkeypatch):
     nvd = {"ratings": [{"source": "nvd"}], "description": "nvd", "versions": []}
     _stub_sources(monkeypatch, None, nvd)
-    relevant = nist_enhance.get_relevant("CVE-1", nist_enhance.DataSourceMode.NVD_THEN_CVE_PROJECT)
+    relevant = nist_enhance.get_relevant(
+        "CVE-1", nist_enhance.DataSourceMode.NVD_THEN_CVE_PROJECT
+    )
     assert relevant["data_source"] == "cve_project"
 
 
 def test_enhance_provenance(monkeypatch):
     from cyclonedx.model.vulnerability import Vulnerability, VulnerabilitySource
 
-    rating = {"score": 5.3, "severity": "MEDIUM", "method": "CVSSv3",
-              "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"}
+    rating = {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "method": "CVSSv3",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+    }
     results = {
-        "CVE-2023-21830": {"ratings": [dict(rating, source="oracle")], "description": "from cve project",
-                           "versions": [], "data_source": "cve_project"},
-        "CVE-2023-21835": {"ratings": [dict(rating, source="nvd@nist.gov")], "description": "from nvd",
-                           "versions": [], "data_source": "nvd"},
+        "CVE-2023-21830": {
+            "ratings": [dict(rating, source="oracle")],
+            "description": "from cve project",
+            "versions": [],
+            "data_source": "cve_project",
+        },
+        "CVE-2023-21835": {
+            "ratings": [dict(rating, source="nvd@nist.gov")],
+            "description": "from nvd",
+            "versions": [],
+            "data_source": "nvd",
+        },
         "CVE-2023-21843": None,
     }
     monkeypatch.setattr(nist_enhance, "get_relevant", lambda id, mode: results[id])
-    ojvg = VulnerabilitySource(name="OpenJDK Vulnerability Group", url="https://openjdk.org/advisory")
+    ojvg = VulnerabilitySource(
+        name="OpenJDK Vulnerability Group", url="https://openjdk.org/advisory"
+    )
     vulns = [Vulnerability(id=id, source=ojvg) for id in results]
     nist_enhance.enhance(vulns, nist_enhance.DataSourceMode.CVE_PROJECT_THEN_NVD)
 
@@ -340,7 +381,9 @@ def test_enhance_provenance(monkeypatch):
 
 def test_fetch_source_is_ojvg():
     with open("tests/data/open_jvg_dump_2023-01-17.html", "r") as data:
-        vulns = fetch_vulnerabilities.parse_to_cyclone(data, "2023-01-17", "www.fakeurl.com")
+        vulns = fetch_vulnerabilities.parse_to_cyclone(
+            data, "2023-01-17", "www.fakeurl.com"
+        )
         assert vulns[0].source.name == "OpenJDK Vulnerability Group"
         assert str(vulns[0].source.url) == "www.fakeurl.com"
 
@@ -367,12 +410,17 @@ def test_data_source_fallback_if_missing(monkeypatch):
 
     # a cve project file without ratings is still used, nvd isn't called
     calls = _stub_sources(monkeypatch, nvd, no_ratings)
-    assert nist_enhance.get_relevant("CVE-1", Mode.CVE_PROJECT_THEN_NVD_IF_MISSING) is no_ratings
+    assert (
+        nist_enhance.get_relevant("CVE-1", Mode.CVE_PROJECT_THEN_NVD_IF_MISSING)
+        is no_ratings
+    )
     assert calls == ["cve_project"]
 
     # no cve project file -> nvd
     calls = _stub_sources(monkeypatch, nvd, None)
-    assert nist_enhance.get_relevant("CVE-1", Mode.CVE_PROJECT_THEN_NVD_IF_MISSING) is nvd
+    assert (
+        nist_enhance.get_relevant("CVE-1", Mode.CVE_PROJECT_THEN_NVD_IF_MISSING) is nvd
+    )
     assert calls == ["cve_project", "nvd"]
 
 
@@ -392,7 +440,9 @@ def test_mode_from_env(monkeypatch):
 
 def test_enhance_reads_mode_from_env(monkeypatch):
     seen = []
-    monkeypatch.setattr(nist_enhance, "get_relevant", lambda id, mode: seen.append(mode))
+    monkeypatch.setattr(
+        nist_enhance, "get_relevant", lambda id, mode: seen.append(mode)
+    )
     monkeypatch.setenv("VDR_DATA_SOURCE_MODE", "nvd_only")
     from cyclonedx.model.vulnerability import Vulnerability
 
@@ -419,11 +469,15 @@ def test_fetch_nist_retries_connection_errors(monkeypatch, tmp_path):
     def flaky_get(url, headers, timeout):
         calls.append(url)
         if len(calls) < 3:
-            raise requests.ConnectionError("Remote end closed connection without response")
+            raise requests.ConnectionError(
+                "Remote end closed connection without response"
+            )
         return Resp()
 
     monkeypatch.setattr(nist_enhance.requests, "get", flaky_get)
-    assert nist_enhance.fetch_nist("https://example/nvd", "CVE-2023-0001") == {"vulnerabilities": []}
+    assert nist_enhance.fetch_nist("https://example/nvd", "CVE-2023-0001") == {
+        "vulnerabilities": []
+    }
     assert len(calls) == 3
 
     def always_fails(url, headers, timeout):
@@ -448,18 +502,30 @@ def test_fetch_nist_retries_server_errors(monkeypatch, tmp_path):
             return {"vulnerabilities": []}
 
     statuses = [503, 429, 200]
-    monkeypatch.setattr(nist_enhance.requests, "get", lambda url, headers, timeout: Resp(statuses.pop(0)))
-    assert nist_enhance.fetch_nist("https://example/nvd", "CVE-2023-0001") == {"vulnerabilities": []}
+    monkeypatch.setattr(
+        nist_enhance.requests,
+        "get",
+        lambda url, headers, timeout: Resp(statuses.pop(0)),
+    )
+    assert nist_enhance.fetch_nist("https://example/nvd", "CVE-2023-0001") == {
+        "vulnerabilities": []
+    }
     assert statuses == []
 
     # still failing after all attempts -> None, nothing cached
-    monkeypatch.setattr(nist_enhance.requests, "get", lambda url, headers, timeout: Resp(503))
+    monkeypatch.setattr(
+        nist_enhance.requests, "get", lambda url, headers, timeout: Resp(503)
+    )
     assert nist_enhance.fetch_nist("https://example/nvd", "CVE-2023-0002") is None
     assert not (tmp_path / "data" / "nist_CVE-2023-0002.json").exists()
 
     # client errors such as 404 aren't retried
     calls = []
-    monkeypatch.setattr(nist_enhance.requests, "get", lambda url, headers, timeout: calls.append(1) or Resp(404))
+    monkeypatch.setattr(
+        nist_enhance.requests,
+        "get",
+        lambda url, headers, timeout: calls.append(1) or Resp(404),
+    )
     assert nist_enhance.fetch_nist("https://example/nvd", "CVE-2023-0003") is None
     assert len(calls) == 1
 
@@ -483,8 +549,20 @@ def test_cve_project_prefers_cvss_3_1():
                 "providerMetadata": {"shortName": "oracle"},
                 "descriptions": [{"lang": "en", "value": "d"}],
                 "metrics": [
-                    {"cvssV3_0": {"baseScore": 4.8, "baseSeverity": "MEDIUM", "vectorString": "CVSS:3.0/AV:N"}},
-                    {"cvssV3_1": {"baseScore": 5.0, "baseSeverity": "MEDIUM", "vectorString": "CVSS:3.1/AV:N"}},
+                    {
+                        "cvssV3_0": {
+                            "baseScore": 4.8,
+                            "baseSeverity": "MEDIUM",
+                            "vectorString": "CVSS:3.0/AV:N",
+                        }
+                    },
+                    {
+                        "cvssV3_1": {
+                            "baseScore": 5.0,
+                            "baseSeverity": "MEDIUM",
+                            "vectorString": "CVSS:3.1/AV:N",
+                        }
+                    },
                 ],
             }
         }
@@ -496,5 +574,11 @@ def test_cve_project_prefers_cvss_3_1():
 def test_cvss_method():
     from cyclonedx.model.vulnerability import VulnerabilityScoreSource
 
-    assert nist_enhance.cvss_method("CVSS:3.0/AV:N/AC:H") == VulnerabilityScoreSource.CVSS_V3
-    assert nist_enhance.cvss_method("CVSS:3.1/AV:N/AC:H") == VulnerabilityScoreSource.CVSS_V3_1
+    assert (
+        nist_enhance.cvss_method("CVSS:3.0/AV:N/AC:H")
+        == VulnerabilityScoreSource.CVSS_V3
+    )
+    assert (
+        nist_enhance.cvss_method("CVSS:3.1/AV:N/AC:H")
+        == VulnerabilityScoreSource.CVSS_V3_1
+    )
