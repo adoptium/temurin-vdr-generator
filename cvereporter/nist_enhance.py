@@ -60,7 +60,7 @@ def fetch_nist(url: str, id: str) -> Optional[dict]:
             data = json.load(the_file)["data"]
             logger.debug("resolved from cache %s", url)
             return data
-    except:
+    except (OSError, ValueError, KeyError):
         logger.debug(
             "unable to find pre-fetched nist response, actually performing fetch."
         )
