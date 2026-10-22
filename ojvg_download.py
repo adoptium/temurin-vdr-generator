@@ -30,4 +30,4 @@ for date_str in list_of_dates:
         responses.append(resp)
 
 with open("data/openjvg_summary.json", "w") as dump:
-    dump.write(json.dumps({"data": responses}, indent=True))
+    dump.write(json.dumps({"data": responses}, indent=2))

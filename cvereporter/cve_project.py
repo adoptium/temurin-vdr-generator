@@ -62,9 +62,13 @@ def fetch_cve_project(id: str) -> Optional[dict]:
             "error fetching %s from cve project; status code: %s", id, resp.status_code
         )
         return None
-    data = resp.json()
+    try:
+        data = resp.json()
+    except ValueError as e:
+        logger.error("error parsing cve project response for %s: %s", id, e)
+        return None
     with open(file_location, "w") as dest:
-        json.dump({"url": url, "data": data}, dest, indent=True)
+        json.dump({"url": url, "data": data}, dest, indent=2)
     return data
 
 

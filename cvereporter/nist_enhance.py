@@ -120,7 +120,7 @@ def fetch_nist(url: str, id: str) -> Optional[dict]:
     else:
         data = nist_resp.json()
         with open(file_location, "w") as dest:
-            json.dump({"url": url, "data": data}, dest, indent=True)
+            json.dump({"url": url, "data": data}, dest, indent=2)
     return data
 
 
@@ -287,7 +287,7 @@ def enhance(
         vuln.source = VulnerabilitySource(
             name=SOURCE_NAMES[relevant["data_source"]], url=url
         )
-        # print(json.dumps(relevant, indent=True))
+        # print(json.dumps(relevant, indent=2))
         for rating in relevant["ratings"]:
 
             score_float = float("nan")
