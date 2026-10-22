@@ -61,4 +61,103 @@ python ojvg_download.py   # writes data/openjvg_summary.json
 python ojvg_convert.py    # writes data/vdr.json
 ```
 
-Tip: In VS Code, pick the interpreter via “Python: Select Interpreter” and choose `.venv/bin/python` so testing and tools use the venv.
+Tip: In VS Code, pick the interpreter via "Python: Select Interpreter" and choose `.venv/bin/python` so testing and tools use the venv.
+
+### Data sources
+
+The NIST NVD is the source of truth for CVE descriptions and ratings. Besides the score from whoever assigned the CVE
+(e.g. Oracle), it sometimes has additional scores, such as NIST's own. If we are running without the
+`NIST_NVD_TOKEN`, we need to throttle our requests in order to get valid data (10 seconds per CVE), and pull requests
+don't get the token. This means VDR generation takes over 30 mins in pull requests.
+
+To produce a valid VDR quickly on pull requests and locally, CVEs can instead be fetched from the
+[CVE Project](https://github.com/CVEProject/cvelistV5) as static files from GitHub (no token needed). These
+records have the same descriptions, but not the additional NVD scores, and 2019 CVEs have no score (see below).
+
+The source is selected with the `VDR_DATA_SOURCE_MODE` environment variable:
+
+| `VDR_DATA_SOURCE_MODE` | Behaviour |
+| --- | --- |
+| `nvd_only` (default) | NVD only. Used for published releases |
+| `cve_project_then_nvd_if_missing` | CVE Project; NVD only for CVEs the CVE Project doesn't have. Fastest, used on pull requests |
+| `cve_project_then_nvd` | CVE Project; NVD if the CVE Project has no record or no CVSS 3.x rating |
+| `nvd_then_cve_project` | NVD; CVE Project if the NVD has no record or no CVSS 3.1 rating |
+
+To generate a VDR quickly from the CVE Project:
+
+```sh
+export VDR_DATA_SOURCE_MODE=cve_project_then_nvd_if_missing
+python ojvg_convert.py
+```
+
+Each vulnerability's `source` in the VDR records which database its data came from, and the convert log ends with a
+count of CVEs per source.
+
+A comparison of both sources for all 202 CVEs on 2026-10-15 found:
+
+- Descriptions were identical for every CVE.
+- From 2021 onwards, scores matched, but NIST added additional NVD scores (e.g. NIST's 7.5 alongside MITRE's 4.0 for
+  CVE-2026-41254) and one CVE project vector that also carried temporal metrics with the same base score.
+- 2020 CVE Project records only have CVSS 3.0 scores. They match the NVD's CVSS 3.1 scores and are used (labelled
+  CVSSv3) when reading from the CVE Project.
+- 2019 CVE Project records have no scores (the NVD has NIST's own). In `cve_project_then_nvd_if_missing` mode these
+  31 CVEs have a description but no score.
+
+As a result of this analysis, we believe that production VDRs should only use the NIST data, but we've added the CVE
+Project as backup, so that PRs run quickly and produce a VDR that is pretty close to the final product.
+
+## Releases
+
+### Publication behaviour
+
+Successful VDR builds triggered by a push to `main` or a manual `workflow_dispatch` are published as an immutable GitHub Release. Pull-request runs validate the pipeline and upload temporary workflow artifacts, but never create or modify a release.
+
+### Naming scheme
+
+Each release uses a unique tag derived from the UTC date of the workflow run and the immutable GitHub Actions run identifier:
+
+```
+temurin-vdr-DD-MM-YYYY-<github.run_id>
+```
+
+Example: `temurin-vdr-15-06-2025-12345678901`
+
+The release title is the full tag name. Release notes record the source commit SHA and a direct link to the workflow run.
+
+### Release assets
+
+Each release ships two files:
+
+| Asset | Description |
+|---|---|
+| `temurin-vdr-DD-MM-YYYY-<run_id>.json` | The generated CycloneDX VDR document |
+| `temurin-vdr-DD-MM-YYYY-<run_id>.sha256` | SHA-256 checksum manifest in standard `sha256sum` format |
+
+### Verifying an asset
+
+```sh
+# download both files for a given release, then:
+sha256sum --check temurin-vdr-DD-MM-YYYY-<run_id>.sha256
+```
+
+### Stable latest-release URL
+
+```
+https://github.com/adoptium/temurin-vdr-generator/releases/latest
+```
+
+This URL always redirects to the most recently published release. Generic consumers can resolve it once to discover the current immutable tag and asset URLs.
+
+### Immutability
+
+Repository or organisation release immutability **must be enabled before the first production release is published**; the setting applies only to future releases. When enabled, GitHub locks the associated Git tag to its commit, prevents the tag from being moved or deleted while the release exists, and prevents release assets from being modified or deleted. Release titles and notes remain editable, but the workflow never edits them after publication.
+
+Tags and releases are never reused, updated, or deleted by the workflow. If an immutable release is deleted manually, its tag cannot be reused.
+
+### Required permissions
+
+The publish job uses the built-in `GITHUB_TOKEN` with `contents: write` permission, scoped to the publish job only. All other jobs default to `contents: read`. No additional secrets or credentials are required unless organisational policy restricts `GITHUB_TOKEN` from creating releases; in that case a maintainer-configured fine-grained PAT or GitHub App token should be stored as a repository secret and referenced as `${{ secrets.RELEASE_TOKEN }}`.
+
+### Future SBOM integration
+
+The exact immutable tag and VDR asset SHA-256 produced by each release will be consumed by `temurin-build` during JDK SBOM generation. That integration is implemented as a separate change in the `adoptium/temurin-build` repository.
