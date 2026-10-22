@@ -32,6 +32,9 @@ jobs:
     - name: Download ojvg
       env:
         NIST_NVD_TOKEN: ${{ secrets.NIST_NVD_TOKEN }}
+        # prs don't get the nvd token, so use the cve project files and only call the nvd for cves it doesn't have.
+        # trusted runs have the token, so use only the nvd.
+        VDR_DATA_SOURCE_MODE: ${{ github.event_name == 'pull_request' && 'cve_project_then_nvd_if_missing' || 'nvd_only' }}
       run: |
         mkdir -p data
         python3 ojvg_download.py
@@ -75,6 +78,7 @@ jobs:
     - name: Generate VDR
       env:
         NIST_NVD_TOKEN: ${{ secrets.NIST_NVD_TOKEN }}
+        VDR_DATA_SOURCE_MODE: nvd_only
       run: |
         mkdir -p data
         python3 ojvg_download.py
