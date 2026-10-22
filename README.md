@@ -63,6 +63,49 @@ python ojvg_convert.py    # writes data/vdr.json
 
 Tip: In VS Code, pick the interpreter via "Python: Select Interpreter" and choose `.venv/bin/python` so testing and tools use the venv.
 
+### Data sources
+
+The NIST NVD is the source of truth for CVE descriptions and ratings. Besides the score from whoever assigned the CVE
+(e.g. Oracle), it sometimes has additional scores, such as NIST's own. If we are running without the
+`NIST_NVD_TOKEN`, we need to throttle our requests in order to get valid data (10 seconds per CVE), and pull requests
+don't get the token. This means VDR generation takes over 30 mins in pull requests.
+
+To produce a valid VDR quickly on pull requests and locally, CVEs can instead be fetched from the
+[CVE Project](https://github.com/CVEProject/cvelistV5) as static files from GitHub (no token needed). These
+records have the same descriptions, but not the additional NVD scores, and 2019 CVEs have no score (see below).
+
+The source is selected with the `VDR_DATA_SOURCE_MODE` environment variable:
+
+| `VDR_DATA_SOURCE_MODE` | Behaviour |
+| --- | --- |
+| `nvd_only` (default) | NVD only. Used for published releases |
+| `cve_project_then_nvd_if_missing` | CVE Project; NVD only for CVEs the CVE Project doesn't have. Fastest, used on pull requests |
+| `cve_project_then_nvd` | CVE Project; NVD if the CVE Project has no record or no CVSS 3.x rating |
+| `nvd_then_cve_project` | NVD; CVE Project if the NVD has no record or no CVSS 3.1 rating |
+
+To generate a VDR quickly from the CVE Project:
+
+```sh
+export VDR_DATA_SOURCE_MODE=cve_project_then_nvd_if_missing
+python ojvg_convert.py
+```
+
+Each vulnerability's `source` in the VDR records which database its data came from, and the convert log ends with a
+count of CVEs per source.
+
+A comparison of both sources for all 202 CVEs on 2026-10-15 found:
+
+- Descriptions were identical for every CVE.
+- From 2021 onwards, scores matched, but NIST added additional NVD scores (e.g. NIST's 7.5 alongside MITRE's 4.0 for
+  CVE-2026-41254) and one CVE project vector that also carried temporal metrics with the same base score.
+- 2020 CVE Project records only have CVSS 3.0 scores. They match the NVD's CVSS 3.1 scores and are used (labelled
+  CVSSv3) when reading from the CVE Project.
+- 2019 CVE Project records have no scores (the NVD has NIST's own). In `cve_project_then_nvd_if_missing` mode these
+  31 CVEs have a description but no score.
+
+As a result of this analysis, we believe that production VDRs should only use the NIST data, but we've added the CVE
+Project as backup, so that PRs run quickly and produce a VDR that is pretty close to the final product.
+
 ## Releases
 
 ### Publication behaviour

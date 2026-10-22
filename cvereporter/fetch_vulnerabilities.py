@@ -230,8 +230,10 @@ def dict_to_vulns(dicts: Optional[list[dict]]) -> list[Vulnerability]:
             affects.versions.add(BomTargetVersionRange(range=version_range_str))
         vuln = Vulnerability(
             id=parsed_data["id"],
+            # the OJVG advisory is where this entry comes from; nist_enhance replaces this with the
+            # database the description and ratings are taken from, if one has the cve
             source=VulnerabilitySource(
-                name="National Vulnerability Database", url=parsed_data["url"]
+                name="OpenJDK Vulnerability Group", url=parsed_data["ojvg_url"]
             ),
             # todo: dummy date
             published=datetime.fromisoformat(parsed_data["date"]),
