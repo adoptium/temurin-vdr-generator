@@ -176,7 +176,9 @@ def parse_to_dict(
             componentsTD = cve.find_next_sibling("td")
             component = componentsTD.text.replace("\n", "")
             score_td = componentsTD.find_next_sibling()
-            score_text = score_td.text
+            # the score and vector are separated by a <br />, e.g. "7.5<br />NLNNUHNN"; .text would join them into
+            # "7.5NLNNUHNN", so join the parts with a space instead
+            score_text = score_td.get_text(" ")
             if score_text is not None:
                 score_text = score_text.split()[
                     0
