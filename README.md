@@ -19,8 +19,8 @@ source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 
-# install pytest if it's not already available
-python -m pip install pytest
+# install the development tools (pytest, flake8, black) used by CI
+python -m pip install -r requirements-dev.txt
 ```
 
 ## Tests
@@ -42,7 +42,7 @@ default settings. All Python files are expected to be black-formatted; please fo
 opening a pull request (CI fails if they are not):
 
 ```sh
-python3 -m pip install black==26.10.0   # the version CI checks with
+python3 -m pip install -r requirements-dev.txt   # installs the black version CI checks with
 python3 -m black <filename>.py   # or `python3 -m black .` for the whole project
 python3 -m black --check .       # verify formatting without changing files
 ```
