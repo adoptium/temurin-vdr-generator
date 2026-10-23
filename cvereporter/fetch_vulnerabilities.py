@@ -186,6 +186,22 @@ def parse_to_dict(
             affected_versions = intersect_major_versions_with_extracted_affected(
                 extracted_affected, affected_major_versions
             )
+            # a feature marked in the matrix but missing from the advisory's introduction loses its applicability
+            unmatched_major_versions = [
+                major
+                for major in affected_major_versions
+                if not intersect_major_versions_with_extracted_affected(
+                    extracted_affected, [major]
+                )
+            ]
+            if unmatched_major_versions:
+                logger.warning(
+                    "%s (%s): matrix marks feature versions %s, but the introduction lists no matching versions (%s)",
+                    id,
+                    date,
+                    unmatched_major_versions,
+                    ", ".join(extracted_affected),
+                )
             parsed_data = {}
             parsed_data["id"] = id
             parsed_data["url"] = link
