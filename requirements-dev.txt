@@ -2,4 +2,4 @@
 flake8
 pytest
 # black changes its formatting style only in the first release of each year, so pin to the year
-black>=26,<27
+black>=26.10.1,<27
